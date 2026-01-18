@@ -57,6 +57,66 @@ const STOPWORDS = new Set([
   "find", "search", "looking", "for", "that", "has", "have", "having"
 ]);
 
+// Known cities/locations - add more as needed
+const KNOWN_LOCATIONS = new Map<string, string>([
+  // Cities (lowercase -> proper case for filter)
+  ["austin", "Austin"],
+  ["miami", "Miami"],
+  ["new york", "New York"],
+  ["nyc", "New York"],
+  ["manhattan", "New York"],
+  ["brooklyn", "Brooklyn"],
+  ["los angeles", "Los Angeles"],
+  ["la", "Los Angeles"],
+  ["chicago", "Chicago"],
+  ["houston", "Houston"],
+  ["phoenix", "Phoenix"],
+  ["dallas", "Dallas"],
+  ["san antonio", "San Antonio"],
+  ["san diego", "San Diego"],
+  ["san jose", "San Jose"],
+  ["san francisco", "San Francisco"],
+  ["denver", "Denver"],
+  ["seattle", "Seattle"],
+  ["boston", "Boston"],
+  ["atlanta", "Atlanta"],
+  ["portland", "Portland"],
+  ["nashville", "Nashville"],
+  ["miami beach", "Miami Beach"],
+]);
+
+interface ParsedQuery {
+  searchTerms: string;
+  locationFilters: string[];
+}
+
+function parseQuery(query: string): ParsedQuery {
+  const lowerQuery = query.toLowerCase();
+  const locationFilters: string[] = [];
+  let remainingQuery = lowerQuery;
+
+  // Check for multi-word locations first (e.g., "miami beach", "new york")
+  const sortedLocations = Array.from(KNOWN_LOCATIONS.entries())
+    .sort((a, b) => b[0].length - a[0].length); // Sort by length descending
+
+  for (const [locationKey, locationValue] of sortedLocations) {
+    if (remainingQuery.includes(locationKey)) {
+      locationFilters.push(locationValue);
+      // Remove the location from the query
+      remainingQuery = remainingQuery.replace(new RegExp(locationKey, 'g'), ' ');
+    }
+  }
+
+  // Clean up the remaining query (remove stopwords and extra spaces)
+  const words = remainingQuery.split(/\s+/).filter(word => word && !STOPWORDS.has(word));
+  const searchTerms = words.join(" ");
+
+  return {
+    searchTerms,
+    locationFilters,
+  };
+}
+
 function cleanQuery(query: string): string {
   const words = query.toLowerCase().split(/\s+/);
   const filtered = words.filter(word => !STOPWORDS.has(word));
@@ -83,8 +143,10 @@ export async function searchFitnessCenters(
     sortBy = "relevance",
   } = params;
 
-  // Clean the query by removing generic gym-related stopwords
-  const query = rawQuery ? cleanQuery(rawQuery) : "";
+  // Parse the query to extract location filters and search terms
+  const { searchTerms: query, locationFilters: extractedCities } = rawQuery
+    ? parseQuery(rawQuery)
+    : { searchTerms: "", locationFilters: [] };
 
   // Build filter string
   const filters: string[] = [];
@@ -104,8 +166,10 @@ export async function searchFitnessCenters(
     filters.push(`attributes:[${attributes.join(",")}]`);
   }
 
-  if (cities?.length) {
-    filters.push(`city:[${cities.join(",")}]`);
+  // Combine explicitly passed cities with extracted cities from query
+  const allCities = [...(cities || []), ...extractedCities];
+  if (allCities.length) {
+    filters.push(`city:[${allCities.join(",")}]`);
   }
 
   if (countries?.length) {
