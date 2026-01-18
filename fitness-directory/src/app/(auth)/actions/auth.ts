@@ -71,7 +71,7 @@ export async function signup(formData: FormData): Promise<AuthResult> {
   // For email confirmation flow, redirect to check email page
   // For instant signup (if email confirmation is disabled), redirect to dashboard
   revalidatePath("/", "layout");
-  redirect("/auth/check-email");
+  redirect("/check-email");
 }
 
 export async function logout(): Promise<void> {

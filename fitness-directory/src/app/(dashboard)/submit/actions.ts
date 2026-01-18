@@ -28,21 +28,23 @@ export interface SubmissionData {
   attributeIds?: string[];
 }
 
-// Geocode address using a free geocoding service
+// Geocode address using Google Maps Geocoding API
 async function geocodeAddress(
   address: string,
   city: string,
   country: string
 ): Promise<{ latitude: number; longitude: number } | null> {
+  const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+
+  if (!apiKey) {
+    console.error("Google Maps API key not configured");
+    return null;
+  }
+
   try {
     const query = encodeURIComponent(`${address}, ${city}, ${country}`);
     const response = await fetch(
-      `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`,
-      {
-        headers: {
-          "User-Agent": "FitnessDirectory/1.0",
-        },
-      }
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&key=${apiKey}`
     );
 
     if (!response.ok) {
@@ -50,15 +52,17 @@ async function geocodeAddress(
     }
 
     const data = await response.json();
-    if (data && data.length > 0) {
+    if (data.status === "OK" && data.results?.length > 0) {
+      const location = data.results[0].geometry.location;
       return {
-        latitude: parseFloat(data[0].lat),
-        longitude: parseFloat(data[0].lon),
+        latitude: location.lat,
+        longitude: location.lng,
       };
     }
 
     return null;
-  } catch {
+  } catch (error) {
+    console.error("Geocoding error:", error);
     return null;
   }
 }
