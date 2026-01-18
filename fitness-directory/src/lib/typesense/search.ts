@@ -1,0 +1,226 @@
+import { createSearchClient } from "./client";
+import { COLLECTION_NAME, type FitnessCenterDocument } from "./schema";
+import type { SearchResponse as TypesenseSearchResponse } from "typesense/lib/Typesense/Documents";
+
+export interface SearchParams {
+  query: string;
+  page?: number;
+  perPage?: number;
+  // Geo search
+  location?: {
+    lat: number;
+    lng: number;
+    radiusMiles: number;
+  };
+  // Filters
+  gymTypes?: string[];
+  priceRanges?: string[];
+  attributes?: string[];
+  cities?: string[];
+  countries?: string[];
+  is24Hour?: boolean;
+  subscriptionTier?: "free" | "premium";
+  // Sorting
+  sortBy?: "relevance" | "distance" | "newest" | "name";
+}
+
+export interface SearchResultItem extends FitnessCenterDocument {
+  distance?: number; // Distance in miles (from geo search)
+}
+
+export interface SearchResponse {
+  results: SearchResultItem[];
+  total: number;
+  page: number;
+  perPage: number;
+  totalPages: number;
+  facets: {
+    gymTypes: FacetCount[];
+    priceRanges: FacetCount[];
+    attributes: FacetCount[];
+    cities: FacetCount[];
+    countries: FacetCount[];
+  };
+  processingTimeMs: number;
+}
+
+interface FacetCount {
+  value: string;
+  count: number;
+}
+
+export async function searchFitnessCenters(
+  params: SearchParams
+): Promise<SearchResponse> {
+  const client = createSearchClient();
+  const {
+    query,
+    page = 1,
+    perPage = 20,
+    location,
+    gymTypes,
+    priceRanges,
+    attributes,
+    cities,
+    countries,
+    is24Hour,
+    subscriptionTier,
+    sortBy = "relevance",
+  } = params;
+
+  // Build filter string
+  const filters: string[] = [];
+
+  // Only show verified/claimed listings
+  filters.push("status:[verified, claimed]");
+
+  if (gymTypes?.length) {
+    filters.push(`gym_type:[${gymTypes.join(",")}]`);
+  }
+
+  if (priceRanges?.length) {
+    filters.push(`price_range:[${priceRanges.join(",")}]`);
+  }
+
+  if (attributes?.length) {
+    filters.push(`attributes:[${attributes.join(",")}]`);
+  }
+
+  if (cities?.length) {
+    filters.push(`city:[${cities.join(",")}]`);
+  }
+
+  if (countries?.length) {
+    filters.push(`country:[${countries.join(",")}]`);
+  }
+
+  if (is24Hour !== undefined) {
+    filters.push(`is_24_hour:${is24Hour}`);
+  }
+
+  if (subscriptionTier) {
+    filters.push(`subscription_tier:${subscriptionTier}`);
+  }
+
+  // Geo filter
+  if (location) {
+    const radiusKm = location.radiusMiles * 1.60934;
+    filters.push(
+      `location:(${location.lat}, ${location.lng}, ${radiusKm} km)`
+    );
+  }
+
+  // Build sort string
+  let sortByStr: string;
+  switch (sortBy) {
+    case "distance":
+      if (location) {
+        sortByStr = `location(${location.lat}, ${location.lng}):asc`;
+      } else {
+        sortByStr = "_text_match:desc,boost_score:desc";
+      }
+      break;
+    case "newest":
+      sortByStr = "created_at:desc";
+      break;
+    case "name":
+      sortByStr = "name:asc";
+      break;
+    case "relevance":
+    default:
+      sortByStr = "_text_match:desc,boost_score:desc";
+  }
+
+  const searchParameters = {
+    q: query || "*",
+    query_by: "name,description,address,city,attributes",
+    filter_by: filters.join(" && "),
+    sort_by: sortByStr,
+    page,
+    per_page: perPage,
+    facet_by: "gym_type,price_range,attributes,city,country",
+    max_facet_values: 50,
+  };
+
+  const response = (await client
+    .collections(COLLECTION_NAME)
+    .documents()
+    .search(searchParameters)) as TypesenseSearchResponse<FitnessCenterDocument>;
+
+  // Parse facets
+  const facetCounts = response.facet_counts || [];
+  const getFacet = (name: string): FacetCount[] => {
+    const facet = facetCounts.find((f) => f.field_name === name);
+    return (
+      facet?.counts?.map((c) => ({
+        value: String(c.value),
+        count: c.count,
+      })) || []
+    );
+  };
+
+  // Map results with distance if available
+  const results: SearchResultItem[] =
+    response.hits?.map((hit) => {
+      const doc = hit.document;
+      // Convert geo_distance_meters to miles
+      const geoDistance = (hit as unknown as { geo_distance_meters?: { location: number } })
+        .geo_distance_meters;
+      const distanceMiles = geoDistance?.location
+        ? geoDistance.location / 1609.34
+        : undefined;
+
+      return {
+        ...doc,
+        distance: distanceMiles,
+      };
+    }) || [];
+
+  return {
+    results,
+    total: response.found || 0,
+    page,
+    perPage,
+    totalPages: Math.ceil((response.found || 0) / perPage),
+    facets: {
+      gymTypes: getFacet("gym_type"),
+      priceRanges: getFacet("price_range"),
+      attributes: getFacet("attributes"),
+      cities: getFacet("city"),
+      countries: getFacet("country"),
+    },
+    processingTimeMs: response.search_time_ms || 0,
+  };
+}
+
+// Autocomplete search for search bar suggestions
+export async function autocompleteFitnessCenters(
+  query: string,
+  limit: number = 5
+): Promise<{ id: string; name: string; city: string; slug: string }[]> {
+  if (!query || query.length < 2) {
+    return [];
+  }
+
+  const client = createSearchClient();
+
+  const response = (await client
+    .collections(COLLECTION_NAME)
+    .documents()
+    .search({
+      q: query,
+      query_by: "name,city",
+      filter_by: "status:[verified, claimed]",
+      per_page: limit,
+      prefix: true,
+    })) as TypesenseSearchResponse<FitnessCenterDocument>;
+
+  return (
+    response.hits?.map((hit) => ({
+      id: hit.document.id,
+      name: hit.document.name,
+      city: hit.document.city,
+      slug: hit.document.slug,
+    })) || []
+  );
+}
