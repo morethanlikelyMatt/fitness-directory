@@ -159,7 +159,7 @@ export function SearchBar({
             onKeyDown={handleKeyDown}
             placeholder={placeholder}
             autoFocus={autoFocus}
-            className="w-full rounded-lg border border-zinc-300 px-4 py-3 text-zinc-900 placeholder-zinc-500 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:placeholder-zinc-400"
+            className="w-full rounded-lg border border-zinc-300 px-4 py-3 text-zinc-900 placeholder-zinc-500 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
           />
           {isLoading && (
             <div className="absolute right-3 top-1/2 -translate-y-1/2">
@@ -169,7 +169,7 @@ export function SearchBar({
         </div>
         <button
           type="submit"
-          className="rounded-lg bg-zinc-900 px-6 py-3 font-medium text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100"
+          className="rounded-lg bg-zinc-900 px-6 py-3 font-medium text-white hover:bg-zinc-800:bg-zinc-100"
         >
           Search
         </button>
@@ -177,7 +177,7 @@ export function SearchBar({
 
       {/* Autocomplete Dropdown */}
       {isOpen && suggestions.length > 0 && (
-        <div className="absolute left-0 right-0 top-full z-50 mt-1 rounded-lg border border-zinc-200 bg-white py-2 shadow-lg dark:border-zinc-700 dark:bg-zinc-900">
+        <div className="absolute left-0 right-0 top-full z-50 mt-1 rounded-lg border border-zinc-200 bg-white py-2 shadow-lg">
           {suggestions.map((suggestion, index) => (
             <Link
               key={suggestion.id}
@@ -185,23 +185,23 @@ export function SearchBar({
               onClick={() => setIsOpen(false)}
               className={`block px-4 py-2 ${
                 index === selectedIndex
-                  ? "bg-zinc-100 dark:bg-zinc-800"
-                  : "hover:bg-zinc-50 dark:hover:bg-zinc-800"
+                  ? "bg-zinc-100"
+                  : "hover:bg-zinc-50:bg-zinc-800"
               }`}
             >
-              <span className="font-medium text-zinc-900 dark:text-white">
+              <span className="font-medium text-zinc-900">
                 {suggestion.name}
               </span>
-              <span className="ml-2 text-sm text-zinc-500 dark:text-zinc-400">
+              <span className="ml-2 text-sm text-zinc-500">
                 {suggestion.city}
               </span>
             </Link>
           ))}
-          <div className="border-t border-zinc-100 px-4 pt-2 dark:border-zinc-800">
+          <div className="border-t border-zinc-100 px-4 pt-2">
             <button
               type="button"
               onClick={handleSubmit}
-              className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+              className="text-sm text-zinc-600 hover:text-zinc-900:text-white"
             >
               Search for &quot;{query}&quot; →
             </button>

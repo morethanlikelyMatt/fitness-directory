@@ -40,8 +40,8 @@ export function SubmissionsTable({ submissions }: SubmissionsTableProps) {
 
   if (submissions.length === 0) {
     return (
-      <div className="rounded-xl border border-dashed border-zinc-300 bg-white p-12 text-center dark:border-zinc-700 dark:bg-zinc-900">
-        <p className="text-zinc-500 dark:text-zinc-400">No submissions found</p>
+      <div className="rounded-xl border border-dashed border-zinc-300 bg-white p-12 text-center">
+        <p className="text-zinc-500">No submissions found</p>
       </div>
     );
   }
@@ -62,10 +62,10 @@ export function SubmissionsTable({ submissions }: SubmissionsTableProps) {
         return (
           <div
             key={submission.id}
-            className={`rounded-xl border bg-white dark:bg-zinc-900 ${
+            className={`rounded-xl border bg-white ${
               submission.status === "pending"
-                ? "border-amber-200 dark:border-amber-800"
-                : "border-zinc-200 dark:border-zinc-800"
+                ? "border-amber-200"
+                : "border-zinc-200"
             } ${loadingId === submission.id ? "opacity-50" : ""}`}
           >
             <div className="flex items-start justify-between p-6">
@@ -74,8 +74,8 @@ export function SubmissionsTable({ submissions }: SubmissionsTableProps) {
                   <span
                     className={`rounded-full px-2 py-0.5 text-xs font-medium ${
                       submission.type === "new_submission"
-                        ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
-                        : "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400"
+                        ? "bg-blue-100 text-blue-700"
+                        : "bg-purple-100 text-purple-700"
                     }`}
                   >
                     {submission.type === "new_submission" ? "New Gym" : "Claim"}
@@ -83,10 +83,10 @@ export function SubmissionsTable({ submissions }: SubmissionsTableProps) {
                   <span
                     className={`rounded-full px-2 py-0.5 text-xs font-medium ${
                       submission.status === "pending"
-                        ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
+                        ? "bg-yellow-100 text-yellow-700"
                         : submission.status === "approved"
-                          ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-                          : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-red-100 text-red-700"
                     }`}
                   >
                     {submission.status}
@@ -96,14 +96,14 @@ export function SubmissionsTable({ submissions }: SubmissionsTableProps) {
                   )}
                 </div>
 
-                <h3 className="mt-2 font-semibold text-zinc-900 dark:text-white">
+                <h3 className="mt-2 font-semibold text-zinc-900">
                   {submission.type === "claim" && submission.fitness_centers
                     ? submission.fitness_centers.name
                     : data.name || "Unnamed submission"}
                 </h3>
 
                 {submission.type === "new_submission" && data.city && (
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                  <p className="text-sm text-zinc-600">
                     {data.city}, {data.country}
                   </p>
                 )}
@@ -128,7 +128,7 @@ export function SubmissionsTable({ submissions }: SubmissionsTableProps) {
                 {submission.type === "claim" && submission.fitness_centers && (
                   <Link
                     href={`/gym/${submission.fitness_centers.slug}`}
-                    className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                    className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm text-zinc-700 hover:bg-zinc-50:bg-zinc-800"
                   >
                     View Gym
                   </Link>
@@ -145,7 +145,7 @@ export function SubmissionsTable({ submissions }: SubmissionsTableProps) {
                     <button
                       onClick={() => handleReject(submission.id)}
                       disabled={loadingId === submission.id}
-                      className="rounded-lg border border-red-200 px-3 py-1.5 text-sm font-medium text-red-600 hover:bg-red-50 dark:border-red-800 dark:hover:bg-red-900/20"
+                      className="rounded-lg border border-red-200 px-3 py-1.5 text-sm font-medium text-red-600 hover:bg-red-50:bg-red-900/20"
                     >
                       Reject
                     </button>
@@ -153,7 +153,7 @@ export function SubmissionsTable({ submissions }: SubmissionsTableProps) {
                 )}
                 <button
                   onClick={() => setExpandedId(isExpanded ? null : submission.id)}
-                  className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                  className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm text-zinc-700 hover:bg-zinc-50:bg-zinc-800"
                 >
                   {isExpanded ? "Hide Details" : "View Details"}
                 </button>
@@ -161,11 +161,11 @@ export function SubmissionsTable({ submissions }: SubmissionsTableProps) {
             </div>
 
             {isExpanded && (
-              <div className="border-t border-zinc-200 bg-zinc-50 p-6 dark:border-zinc-800 dark:bg-zinc-800/50">
-                <h4 className="text-sm font-medium text-zinc-900 dark:text-white">
+              <div className="border-t border-zinc-200 bg-zinc-50 p-6">
+                <h4 className="text-sm font-medium text-zinc-900">
                   Submitted Data
                 </h4>
-                <pre className="mt-2 overflow-x-auto rounded-lg bg-white p-4 text-xs text-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
+                <pre className="mt-2 overflow-x-auto rounded-lg bg-white p-4 text-xs text-zinc-700">
                   {JSON.stringify(submission.submitted_data, null, 2)}
                 </pre>
               </div>

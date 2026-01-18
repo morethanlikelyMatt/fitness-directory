@@ -189,31 +189,31 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
 
   return (
     <>
-      <div className="rounded-xl border border-zinc-200 bg-white p-8 dark:border-zinc-800 dark:bg-zinc-900">
+      <div className="rounded-xl border border-zinc-200 bg-white p-8">
         <div className="mb-6 flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">
+            <h1 className="text-2xl font-bold text-zinc-900">
               Edit Listing
             </h1>
-            <p className="mt-1 text-zinc-600 dark:text-zinc-400">
+            <p className="mt-1 text-zinc-600">
               Update your fitness center information
             </p>
           </div>
           {listing.subscription_tier === "premium" && (
-            <span className="rounded-full bg-amber-100 px-3 py-1 text-sm font-medium text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+            <span className="rounded-full bg-amber-100 px-3 py-1 text-sm font-medium text-amber-700">
               Premium
             </span>
           )}
         </div>
 
         {error && (
-          <div className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-600 dark:bg-red-900/20 dark:text-red-400">
+          <div className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-600">
             {error}
           </div>
         )}
 
         {success && (
-          <div className="mb-4 rounded-lg bg-green-50 p-3 text-sm text-green-600 dark:bg-green-900/20 dark:text-green-400">
+          <div className="mb-4 rounded-lg bg-green-50 p-3 text-sm text-green-600">
             Changes saved successfully!
           </div>
         )}
@@ -221,14 +221,14 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Basic Info */}
           <section>
-            <h2 className="mb-4 text-lg font-semibold text-zinc-900 dark:text-white">
+            <h2 className="mb-4 text-lg font-semibold text-zinc-900">
               Basic Information
             </h2>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="sm:col-span-2">
                 <label
                   htmlFor="name"
-                  className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                  className="block text-sm font-medium text-zinc-700"
                 >
                   Gym Name *
                 </label>
@@ -239,14 +239,14 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
                   required
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
                 />
               </div>
 
               <div className="sm:col-span-2">
                 <label
                   htmlFor="description"
-                  className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                  className="block text-sm font-medium text-zinc-700"
                 >
                   Description
                 </label>
@@ -256,14 +256,14 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
                   rows={4}
                   value={formData.description}
                   onChange={handleInputChange}
-                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="gymType"
-                  className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                  className="block text-sm font-medium text-zinc-700"
                 >
                   Gym Type *
                 </label>
@@ -273,7 +273,7 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
                   required
                   value={formData.gymType}
                   onChange={handleInputChange}
-                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
                 >
                   {GYM_TYPES.map((type) => (
                     <option key={type.value} value={type.value}>
@@ -286,7 +286,7 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
               <div>
                 <label
                   htmlFor="priceRange"
-                  className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                  className="block text-sm font-medium text-zinc-700"
                 >
                   Price Range
                 </label>
@@ -295,7 +295,7 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
                   name="priceRange"
                   value={formData.priceRange || ""}
                   onChange={handleInputChange}
-                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
                 >
                   <option value="">Select price range...</option>
                   {PRICE_RANGES.map((range) => (
@@ -310,14 +310,14 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
 
           {/* Location */}
           <section>
-            <h2 className="mb-4 text-lg font-semibold text-zinc-900 dark:text-white">
+            <h2 className="mb-4 text-lg font-semibold text-zinc-900">
               Location
             </h2>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="sm:col-span-2">
                 <label
                   htmlFor="address"
-                  className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                  className="block text-sm font-medium text-zinc-700"
                 >
                   Street Address *
                 </label>
@@ -328,14 +328,14 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
                   required
                   value={formData.address}
                   onChange={handleInputChange}
-                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="city"
-                  className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                  className="block text-sm font-medium text-zinc-700"
                 >
                   City *
                 </label>
@@ -346,14 +346,14 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
                   required
                   value={formData.city}
                   onChange={handleInputChange}
-                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="state"
-                  className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                  className="block text-sm font-medium text-zinc-700"
                 >
                   State/Province
                 </label>
@@ -363,14 +363,14 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
                   name="state"
                   value={formData.state}
                   onChange={handleInputChange}
-                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="country"
-                  className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                  className="block text-sm font-medium text-zinc-700"
                 >
                   Country *
                 </label>
@@ -381,14 +381,14 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
                   required
                   value={formData.country}
                   onChange={handleInputChange}
-                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="postalCode"
-                  className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                  className="block text-sm font-medium text-zinc-700"
                 >
                   Postal Code
                 </label>
@@ -398,7 +398,7 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
                   name="postalCode"
                   value={formData.postalCode}
                   onChange={handleInputChange}
-                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
                 />
               </div>
             </div>
@@ -406,14 +406,14 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
 
           {/* Contact */}
           <section>
-            <h2 className="mb-4 text-lg font-semibold text-zinc-900 dark:text-white">
+            <h2 className="mb-4 text-lg font-semibold text-zinc-900">
               Contact Information
             </h2>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label
                   htmlFor="phone"
-                  className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                  className="block text-sm font-medium text-zinc-700"
                 >
                   Phone
                 </label>
@@ -423,14 +423,14 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                  className="block text-sm font-medium text-zinc-700"
                 >
                   Email
                 </label>
@@ -440,14 +440,14 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
                 />
               </div>
 
               <div className="sm:col-span-2">
                 <label
                   htmlFor="website"
-                  className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                  className="block text-sm font-medium text-zinc-700"
                 >
                   Website
                 </label>
@@ -457,7 +457,7 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
                   name="website"
                   value={formData.website}
                   onChange={handleInputChange}
-                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
                 />
               </div>
             </div>
@@ -465,13 +465,13 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
 
           {/* Hours */}
           <section>
-            <h2 className="mb-4 text-lg font-semibold text-zinc-900 dark:text-white">
+            <h2 className="mb-4 text-lg font-semibold text-zinc-900">
               Operating Hours
             </h2>
             <div className="space-y-3">
               {DAYS.map((day) => (
                 <div key={day} className="flex items-center gap-4">
-                  <span className="w-24 text-sm font-medium capitalize text-zinc-700 dark:text-zinc-300">
+                  <span className="w-24 text-sm font-medium capitalize text-zinc-700">
                     {day}
                   </span>
                   <input
@@ -480,7 +480,7 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
                     onChange={(e) =>
                       handleHoursChange(day, "open", e.target.value)
                     }
-                    className="rounded-lg border border-zinc-300 px-3 py-1.5 text-sm text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                    className="rounded-lg border border-zinc-300 px-3 py-1.5 text-sm text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
                   />
                   <span className="text-zinc-500">to</span>
                   <input
@@ -489,7 +489,7 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
                     onChange={(e) =>
                       handleHoursChange(day, "close", e.target.value)
                     }
-                    className="rounded-lg border border-zinc-300 px-3 py-1.5 text-sm text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                    className="rounded-lg border border-zinc-300 px-3 py-1.5 text-sm text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
                   />
                 </div>
               ))}
@@ -498,14 +498,14 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
 
           {/* Attributes */}
           <section>
-            <h2 className="mb-4 text-lg font-semibold text-zinc-900 dark:text-white">
+            <h2 className="mb-4 text-lg font-semibold text-zinc-900">
               Features & Amenities
             </h2>
             <div className="space-y-6">
               {Object.entries(attributesByCategory).map(
                 ([category, attrs]) => (
                   <div key={category}>
-                    <h3 className="mb-3 text-sm font-medium text-zinc-900 dark:text-white">
+                    <h3 className="mb-3 text-sm font-medium text-zinc-900">
                       {categoryLabels[category] || category}
                     </h3>
                     <div className="flex flex-wrap gap-2">
@@ -516,8 +516,8 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
                           onClick={() => toggleAttribute(attr.id)}
                           className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
                             selectedAttributes.includes(attr.id)
-                              ? "bg-zinc-900 text-white dark:bg-white dark:text-zinc-900"
-                              : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
+                              ? "bg-zinc-900 text-white"
+                              : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200:bg-zinc-700"
                           }`}
                         >
                           {attr.name}
@@ -531,25 +531,25 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
           </section>
 
           {/* Actions */}
-          <div className="flex items-center justify-between border-t border-zinc-200 pt-6 dark:border-zinc-700">
+          <div className="flex items-center justify-between border-t border-zinc-200 pt-6">
             <button
               type="button"
               onClick={() => setShowDeleteConfirm(true)}
-              className="text-sm font-medium text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+              className="text-sm font-medium text-red-600 hover:text-red-700:text-red-300"
             >
               Delete Listing
             </button>
             <div className="flex gap-3">
               <Link
                 href="/owner"
-                className="rounded-lg border border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                className="rounded-lg border border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50:bg-zinc-800"
               >
                 Cancel
               </Link>
               <button
                 type="submit"
                 disabled={isSaving}
-                className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100"
+                className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-50:bg-zinc-100"
               >
                 {isSaving ? "Saving..." : "Save Changes"}
               </button>
@@ -561,18 +561,18 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-md rounded-xl bg-white p-6 dark:bg-zinc-900">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">
+          <div className="w-full max-w-md rounded-xl bg-white p-6">
+            <h3 className="text-lg font-semibold text-zinc-900">
               Delete Listing
             </h3>
-            <p className="mt-2 text-zinc-600 dark:text-zinc-400">
+            <p className="mt-2 text-zinc-600">
               Are you sure you want to delete &quot;{listing.name}&quot;?
               This action cannot be undone.
             </p>
             <div className="mt-6 flex justify-end gap-3">
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="rounded-lg border border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                className="rounded-lg border border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50:bg-zinc-800"
               >
                 Cancel
               </button>

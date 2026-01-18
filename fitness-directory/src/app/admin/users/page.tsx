@@ -69,10 +69,10 @@ export default async function AdminUsersPage({ searchParams }: PageProps) {
   return (
     <div>
       <div>
-        <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">
+        <h1 className="text-2xl font-bold text-zinc-900">
           Users
         </h1>
-        <p className="mt-1 text-zinc-600 dark:text-zinc-400">
+        <p className="mt-1 text-zinc-600">
           {total} users total
         </p>
       </div>
@@ -85,18 +85,18 @@ export default async function AdminUsersPage({ searchParams }: PageProps) {
             name="search"
             placeholder="Search by email or name..."
             defaultValue={search}
-            className="w-full max-w-xs rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm focus:border-zinc-400 focus:outline-none dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+            className="w-full max-w-xs rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm focus:border-zinc-400 focus:outline-none"
           />
         </form>
-        <div className="flex rounded-lg border border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-800">
+        <div className="flex rounded-lg border border-zinc-200 bg-white">
           {["all", "user", "owner", "admin"].map((r) => (
             <a
               key={r}
               href={`/admin/users?role=${r}&search=${search}`}
               className={`px-4 py-2 text-sm font-medium capitalize ${
                 role === r
-                  ? "bg-zinc-900 text-white dark:bg-white dark:text-zinc-900"
-                  : "text-zinc-600 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:bg-zinc-700"
+                  ? "bg-zinc-900 text-white"
+                  : "text-zinc-600 hover:bg-zinc-50:bg-zinc-700"
               } ${r === "all" ? "rounded-l-lg" : ""} ${r === "admin" ? "rounded-r-lg" : ""}`}
             >
               {r === "all" ? "All" : r + "s"}
@@ -113,14 +113,14 @@ export default async function AdminUsersPage({ searchParams }: PageProps) {
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="mt-6 flex items-center justify-between">
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="text-sm text-zinc-600">
             Page {page} of {totalPages}
           </p>
           <div className="flex gap-2">
             {page > 1 && (
               <a
                 href={`/admin/users?page=${page - 1}&role=${role}&search=${search}`}
-                className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-800"
+                className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm hover:bg-zinc-50:bg-zinc-800"
               >
                 Previous
               </a>
@@ -128,7 +128,7 @@ export default async function AdminUsersPage({ searchParams }: PageProps) {
             {page < totalPages && (
               <a
                 href={`/admin/users?page=${page + 1}&role=${role}&search=${search}`}
-                className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-800"
+                className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm hover:bg-zinc-50:bg-zinc-800"
               >
                 Next
               </a>

@@ -149,7 +149,7 @@ export default async function AttributePage({ params }: AttributePageProps) {
   const categoryLabel = categoryLabels[category];
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-50 dark:bg-zinc-950">
+    <div className="flex min-h-screen flex-col bg-zinc-50">
       <BreadcrumbJsonLd
         items={[
           { name: "Home", url: appUrl },
@@ -162,27 +162,27 @@ export default async function AttributePage({ params }: AttributePageProps) {
       <main className="flex-1 px-6 py-8">
         <div className="mx-auto max-w-6xl">
           {/* Breadcrumb */}
-          <nav className="mb-6 text-sm text-zinc-500 dark:text-zinc-400">
-            <Link href="/" className="hover:text-zinc-700 dark:hover:text-zinc-300">
+          <nav className="mb-6 text-sm text-zinc-500">
+            <Link href="/" className="hover:text-zinc-700:text-zinc-300">
               Home
             </Link>
             <span className="mx-2">/</span>
             <span className="capitalize">{categoryLabel}</span>
             <span className="mx-2">/</span>
-            <span className="text-zinc-900 dark:text-white">{attributeName}</span>
+            <span className="text-zinc-900">{attributeName}</span>
           </nav>
 
           {/* Header */}
           <header className="mb-8">
             <div className="flex items-center gap-3">
-              <span className="rounded-full bg-zinc-200 px-3 py-1 text-sm font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
+              <span className="rounded-full bg-zinc-200 px-3 py-1 text-sm font-medium text-zinc-700">
                 {categoryLabel}
               </span>
             </div>
-            <h1 className="mt-4 text-3xl font-bold text-zinc-900 dark:text-white">
+            <h1 className="mt-4 text-3xl font-bold text-zinc-900">
               Gyms with {attributeName}
             </h1>
-            <p className="mt-2 text-zinc-600 dark:text-zinc-400">
+            <p className="mt-2 text-zinc-600">
               {gyms.length} fitness {gyms.length === 1 ? "center" : "centers"} with{" "}
               {attributeName.toLowerCase()}
             </p>
@@ -194,29 +194,29 @@ export default async function AttributePage({ params }: AttributePageProps) {
               <Link
                 key={gym.id}
                 href={`/gym/${gym.slug}`}
-                className="group rounded-xl border border-zinc-200 bg-white p-6 transition-shadow hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
+                className="group rounded-xl border border-zinc-200 bg-white p-6 transition-shadow hover:shadow-md"
               >
                 <div className="flex items-start justify-between">
                   <div>
-                    <h2 className="font-semibold text-zinc-900 group-hover:text-zinc-700 dark:text-white dark:group-hover:text-zinc-200">
+                    <h2 className="font-semibold text-zinc-900 group-hover:text-zinc-700:text-zinc-200">
                       {gym.name}
                     </h2>
-                    <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+                    <p className="mt-1 text-sm text-zinc-500">
                       {gym.city}, {gym.country}
                     </p>
                   </div>
                   {gym.subscription_tier === "premium" && (
-                    <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+                    <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700">
                       Premium
                     </span>
                   )}
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
-                  <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+                  <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600">
                     {gymTypeLabels[gym.gym_type] || gym.gym_type}
                   </span>
                   {gym.price_range && (
-                    <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+                    <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600">
                       {gym.price_range}
                     </span>
                   )}
@@ -226,16 +226,16 @@ export default async function AttributePage({ params }: AttributePageProps) {
           </div>
 
           {/* CTA */}
-          <div className="mt-12 rounded-xl border border-dashed border-zinc-300 bg-white p-8 text-center dark:border-zinc-700 dark:bg-zinc-900">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">
+          <div className="mt-12 rounded-xl border border-dashed border-zinc-300 bg-white p-8 text-center">
+            <h3 className="text-lg font-semibold text-zinc-900">
               Does your gym have {attributeName.toLowerCase()}?
             </h3>
-            <p className="mt-2 text-zinc-600 dark:text-zinc-400">
+            <p className="mt-2 text-zinc-600">
               Add your fitness center to the directory and showcase your {categoryDescriptions[category]}.
             </p>
             <Link
               href="/submit"
-              className="mt-4 inline-block rounded-lg bg-zinc-900 px-6 py-2 text-sm font-medium text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100"
+              className="mt-4 inline-block rounded-lg bg-zinc-900 px-6 py-2 text-sm font-medium text-white hover:bg-zinc-800:bg-zinc-100"
             >
               Submit Your Gym
             </Link>

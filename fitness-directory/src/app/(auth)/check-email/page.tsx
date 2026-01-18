@@ -8,12 +8,12 @@ export const metadata: Metadata = {
 
 export default function CheckEmailPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 px-4 dark:bg-zinc-950">
+    <div className="flex min-h-screen items-center justify-center bg-zinc-50 px-4">
       <div className="w-full max-w-md text-center">
-        <div className="rounded-lg border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
+        <div className="rounded-lg border border-zinc-200 bg-white p-8 shadow-sm">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
             <svg
-              className="h-6 w-6 text-green-600 dark:text-green-400"
+              className="h-6 w-6 text-green-600"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -27,11 +27,11 @@ export default function CheckEmailPage() {
             </svg>
           </div>
 
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">
+          <h1 className="text-2xl font-bold text-zinc-900">
             Check your email
           </h1>
 
-          <p className="mt-4 text-zinc-600 dark:text-zinc-400">
+          <p className="mt-4 text-zinc-600">
             We&apos;ve sent you a confirmation link. Please check your email and
             click the link to activate your account.
           </p>
@@ -40,7 +40,7 @@ export default function CheckEmailPage() {
             Didn&apos;t receive the email? Check your spam folder or{" "}
             <Link
               href="/signup"
-              className="text-zinc-900 underline hover:no-underline dark:text-white"
+              className="text-zinc-900 underline hover:no-underline"
             >
               try again
             </Link>
@@ -50,7 +50,7 @@ export default function CheckEmailPage() {
           <div className="mt-8">
             <Link
               href="/login"
-              className="inline-block rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100"
+              className="inline-block rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800:bg-zinc-100"
             >
               Back to Sign In
             </Link>

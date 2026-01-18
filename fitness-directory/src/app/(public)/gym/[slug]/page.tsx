@@ -192,7 +192,7 @@ export default async function GymPage({ params }: GymPageProps) {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://fitnessdirectory.com";
 
   return (
-    <div className="flex min-h-screen flex-col bg-white dark:bg-zinc-950">
+    <div className="flex min-h-screen flex-col bg-white">
       {/* Structured Data */}
       <LocalBusinessJsonLd
         name={gym.name}
@@ -228,19 +228,19 @@ export default async function GymPage({ params }: GymPageProps) {
       <main className="flex-1">
         <div className="mx-auto max-w-4xl px-6 py-8">
           {/* Breadcrumb */}
-          <nav className="mb-6 text-sm text-zinc-500 dark:text-zinc-400">
-            <Link href="/" className="hover:text-zinc-700 dark:hover:text-zinc-300">
+          <nav className="mb-6 text-sm text-zinc-500">
+            <Link href="/" className="hover:text-zinc-700:text-zinc-300">
               Home
             </Link>
             <span className="mx-2">/</span>
             <Link
               href="/search"
-              className="hover:text-zinc-700 dark:hover:text-zinc-300"
+              className="hover:text-zinc-700:text-zinc-300"
             >
               Search
             </Link>
             <span className="mx-2">/</span>
-            <span className="text-zinc-900 dark:text-white">{gym.name}</span>
+            <span className="text-zinc-900">{gym.name}</span>
           </nav>
 
           {/* Header */}
@@ -248,14 +248,14 @@ export default async function GymPage({ params }: GymPageProps) {
             <div className="flex items-start justify-between gap-4">
               <div>
                 {isPremium && (
-                  <span className="mb-2 inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-900/30 dark:text-amber-400">
+                  <span className="mb-2 inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-800">
                     Premium Listing
                   </span>
                 )}
-                <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">
+                <h1 className="text-3xl font-bold text-zinc-900">
                   {gym.name}
                 </h1>
-                <p className="mt-2 text-zinc-600 dark:text-zinc-400">
+                <p className="mt-2 text-zinc-600">
                   {gym.address}
                   <br />
                   {locationParts.join(", ")}
@@ -265,11 +265,11 @@ export default async function GymPage({ params }: GymPageProps) {
             </div>
 
             <div className="mt-4 flex flex-wrap gap-2">
-              <span className="rounded-full bg-zinc-100 px-3 py-1 text-sm text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
+              <span className="rounded-full bg-zinc-100 px-3 py-1 text-sm text-zinc-700">
                 {gymTypeLabels[gym.gym_type] || gym.gym_type}
               </span>
               {gym.price_range && (
-                <span className="rounded-full bg-zinc-100 px-3 py-1 text-sm text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
+                <span className="rounded-full bg-zinc-100 px-3 py-1 text-sm text-zinc-700">
                   {gym.price_range}
                 </span>
               )}
@@ -282,10 +282,10 @@ export default async function GymPage({ params }: GymPageProps) {
               {/* Description */}
               {gym.description && (
                 <section>
-                  <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">
+                  <h2 className="text-xl font-semibold text-zinc-900">
                     About
                   </h2>
-                  <p className="mt-4 whitespace-pre-line text-zinc-600 dark:text-zinc-400">
+                  <p className="mt-4 whitespace-pre-line text-zinc-600">
                     {gym.description}
                   </p>
                 </section>
@@ -298,14 +298,14 @@ export default async function GymPage({ params }: GymPageProps) {
 
                 return (
                   <section key={category}>
-                    <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">
+                    <h2 className="text-xl font-semibold text-zinc-900">
                       {categoryLabels[category] || category}
                     </h2>
                     <div className="mt-4 flex flex-wrap gap-2">
                       {attrs.map((attr, idx) => (
                         <span
                           key={idx}
-                          className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm text-zinc-700 dark:border-zinc-700 dark:text-zinc-300"
+                          className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm text-zinc-700"
                         >
                           {attr.name}
                           {isPremium && attr.quantity && (
@@ -323,10 +323,10 @@ export default async function GymPage({ params }: GymPageProps) {
               {/* Premium Content */}
               {isPremium && details?.guest_policy && (
                 <section>
-                  <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">
+                  <h2 className="text-xl font-semibold text-zinc-900">
                     Guest Policy
                   </h2>
-                  <p className="mt-4 text-zinc-600 dark:text-zinc-400">
+                  <p className="mt-4 text-zinc-600">
                     {details.guest_policy}
                   </p>
                 </section>
@@ -334,10 +334,10 @@ export default async function GymPage({ params }: GymPageProps) {
 
               {isPremium && details?.contract_terms && (
                 <section>
-                  <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">
+                  <h2 className="text-xl font-semibold text-zinc-900">
                     Contract & Membership
                   </h2>
-                  <p className="mt-4 text-zinc-600 dark:text-zinc-400">
+                  <p className="mt-4 text-zinc-600">
                     {details.contract_terms}
                   </p>
                 </section>
@@ -345,11 +345,11 @@ export default async function GymPage({ params }: GymPageProps) {
 
               {/* Non-premium upsell */}
               {!isPremium && (
-                <section className="rounded-lg border border-dashed border-zinc-300 bg-zinc-50 p-6 dark:border-zinc-700 dark:bg-zinc-900">
-                  <h3 className="font-semibold text-zinc-900 dark:text-white">
+                <section className="rounded-lg border border-dashed border-zinc-300 bg-zinc-50 p-6">
+                  <h3 className="font-semibold text-zinc-900">
                     Want more details?
                   </h3>
-                  <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+                  <p className="mt-2 text-sm text-zinc-600">
                     Premium listings include photos, class schedules, detailed
                     equipment lists, contract terms, and more.
                   </p>
@@ -357,7 +357,7 @@ export default async function GymPage({ params }: GymPageProps) {
                     Are you the owner?{" "}
                     <Link
                       href="/submit"
-                      className="font-medium text-zinc-900 hover:underline dark:text-white"
+                      className="font-medium text-zinc-900 hover:underline"
                     >
                       Claim this listing →
                     </Link>
@@ -369,8 +369,8 @@ export default async function GymPage({ params }: GymPageProps) {
             {/* Sidebar */}
             <aside className="space-y-4 lg:col-span-1">
               {/* Hours */}
-              <div className="rounded-lg border border-zinc-200 p-6 dark:border-zinc-800">
-                <h3 className="font-semibold text-zinc-900 dark:text-white">
+              <div className="rounded-lg border border-zinc-200 p-6">
+                <h3 className="font-semibold text-zinc-900">
                   Hours
                 </h3>
                 {hours ? (
@@ -388,8 +388,8 @@ export default async function GymPage({ params }: GymPageProps) {
                           <span
                             className={
                               isToday
-                                ? "text-zinc-900 dark:text-white"
-                                : "text-zinc-600 dark:text-zinc-400"
+                                ? "text-zinc-900"
+                                : "text-zinc-600"
                             }
                           >
                             {dayLabels[day]}
@@ -398,8 +398,8 @@ export default async function GymPage({ params }: GymPageProps) {
                           <span
                             className={
                               isToday
-                                ? "text-zinc-900 dark:text-white"
-                                : "text-zinc-600 dark:text-zinc-400"
+                                ? "text-zinc-900"
+                                : "text-zinc-600"
                             }
                           >
                             {dayHours
@@ -418,8 +418,8 @@ export default async function GymPage({ params }: GymPageProps) {
               </div>
 
               {/* Contact */}
-              <div className="rounded-lg border border-zinc-200 p-6 dark:border-zinc-800">
-                <h3 className="font-semibold text-zinc-900 dark:text-white">
+              <div className="rounded-lg border border-zinc-200 p-6">
+                <h3 className="font-semibold text-zinc-900">
                   Contact
                 </h3>
                 <div className="mt-4 space-y-3 text-sm">
@@ -427,7 +427,7 @@ export default async function GymPage({ params }: GymPageProps) {
                     <p>
                       <a
                         href={`tel:${gym.phone}`}
-                        className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                        className="text-zinc-600 hover:text-zinc-900:text-white"
                       >
                         {gym.phone}
                       </a>
@@ -437,7 +437,7 @@ export default async function GymPage({ params }: GymPageProps) {
                     <p>
                       <a
                         href={`mailto:${gym.email}`}
-                        className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                        className="text-zinc-600 hover:text-zinc-900:text-white"
                       >
                         {gym.email}
                       </a>
@@ -449,7 +449,7 @@ export default async function GymPage({ params }: GymPageProps) {
                         href={gym.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-zinc-900 hover:underline dark:text-white"
+                        className="text-zinc-900 hover:underline"
                       >
                         Visit Website →
                       </a>
@@ -459,7 +459,7 @@ export default async function GymPage({ params }: GymPageProps) {
               </div>
 
               {/* Map Placeholder */}
-              <div className="aspect-video rounded-lg border border-zinc-200 bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900">
+              <div className="aspect-video rounded-lg border border-zinc-200 bg-zinc-100">
                 <div className="flex h-full items-center justify-center text-sm text-zinc-500">
                   Map coming soon
                 </div>
@@ -467,13 +467,13 @@ export default async function GymPage({ params }: GymPageProps) {
 
               {/* Claim CTA */}
               {!gym.owner_id && (
-                <div className="rounded-lg border border-dashed border-zinc-300 p-4 text-center dark:border-zinc-700">
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                <div className="rounded-lg border border-dashed border-zinc-300 p-4 text-center">
+                  <p className="text-sm text-zinc-600">
                     Is this your gym?
                   </p>
                   <Link
                     href="/submit"
-                    className="mt-2 inline-block text-sm font-medium text-zinc-900 hover:underline dark:text-white"
+                    className="mt-2 inline-block text-sm font-medium text-zinc-900 hover:underline"
                   >
                     Claim this listing →
                   </Link>

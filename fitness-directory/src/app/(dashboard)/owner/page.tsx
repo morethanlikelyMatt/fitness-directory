@@ -36,7 +36,7 @@ export default async function OwnerListingsPage() {
     .order("created_at", { ascending: false });
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-50 dark:bg-zinc-950">
+    <div className="flex min-h-screen flex-col bg-zinc-50">
       <Header showSearch={false} />
 
       <main className="flex-1 px-6 py-8">
@@ -44,16 +44,16 @@ export default async function OwnerListingsPage() {
           {/* Header */}
           <div className="mb-8 flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">
+              <h1 className="text-2xl font-bold text-zinc-900">
                 My Listings
               </h1>
-              <p className="mt-1 text-zinc-600 dark:text-zinc-400">
+              <p className="mt-1 text-zinc-600">
                 Manage your fitness center listings
               </p>
             </div>
             <Link
               href="/submit"
-              className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100"
+              className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800:bg-zinc-100"
             >
               Add New Gym
             </Link>
@@ -65,34 +65,34 @@ export default async function OwnerListingsPage() {
               {listings.map((listing: Listing) => (
                 <div
                   key={listing.id}
-                  className="flex items-center justify-between rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900"
+                  className="flex items-center justify-between rounded-xl border border-zinc-200 bg-white p-6"
                 >
                   <div className="flex-1">
                     <div className="flex items-center gap-3">
-                      <h3 className="font-semibold text-zinc-900 dark:text-white">
+                      <h3 className="font-semibold text-zinc-900">
                         {listing.name}
                       </h3>
                       <span
                         className={`rounded-full px-2 py-0.5 text-xs font-medium ${
                           listing.status === "active"
-                            ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                            ? "bg-green-100 text-green-700"
                             : listing.status === "pending"
-                              ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
-                              : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
+                              ? "bg-yellow-100 text-yellow-700"
+                              : "bg-zinc-100 text-zinc-600"
                         }`}
                       >
                         {listing.status}
                       </span>
                       {listing.subscription_tier === "premium" && (
-                        <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+                        <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700">
                           Premium
                         </span>
                       )}
                     </div>
-                    <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+                    <p className="mt-1 text-sm text-zinc-500">
                       {listing.city}, {listing.country}
                     </p>
-                    <p className="mt-1 text-xs text-zinc-400 dark:text-zinc-500">
+                    <p className="mt-1 text-xs text-zinc-400">
                       Added{" "}
                       {new Date(listing.created_at).toLocaleDateString("en-US", {
                         year: "numeric",
@@ -104,13 +104,13 @@ export default async function OwnerListingsPage() {
                   <div className="flex items-center gap-2">
                     <Link
                       href={`/gym/${listing.slug}`}
-                      className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                      className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50:bg-zinc-800"
                     >
                       View
                     </Link>
                     <Link
                       href={`/owner/listings/${listing.id}`}
-                      className="rounded-lg bg-zinc-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100"
+                      className="rounded-lg bg-zinc-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-zinc-800:bg-zinc-100"
                     >
                       Manage
                     </Link>
@@ -119,8 +119,8 @@ export default async function OwnerListingsPage() {
               ))}
             </div>
           ) : (
-            <div className="rounded-xl border border-dashed border-zinc-300 bg-white p-12 text-center dark:border-zinc-700 dark:bg-zinc-900">
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800">
+            <div className="rounded-xl border border-dashed border-zinc-300 bg-white p-12 text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-zinc-100">
                 <svg
                   className="h-6 w-6 text-zinc-400"
                   fill="none"
@@ -135,15 +135,15 @@ export default async function OwnerListingsPage() {
                   />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">
+              <h3 className="text-lg font-semibold text-zinc-900">
                 No listings yet
               </h3>
-              <p className="mt-2 text-zinc-500 dark:text-zinc-400">
+              <p className="mt-2 text-zinc-500">
                 Get started by adding your first fitness center
               </p>
               <Link
                 href="/submit"
-                className="mt-4 inline-block rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100"
+                className="mt-4 inline-block rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800:bg-zinc-100"
               >
                 Add Your First Gym
               </Link>

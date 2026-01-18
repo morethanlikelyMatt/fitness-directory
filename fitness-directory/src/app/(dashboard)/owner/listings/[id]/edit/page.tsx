@@ -27,7 +27,7 @@ export default async function EditListingPage({ params }: EditListingPageProps) 
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-50 dark:bg-zinc-950">
+    <div className="flex min-h-screen flex-col bg-zinc-50">
       <Header showSearch={false} />
 
       <main className="flex-1 px-6 py-8">
@@ -35,7 +35,7 @@ export default async function EditListingPage({ params }: EditListingPageProps) 
           <div className="mb-8">
             <Link
               href="/owner"
-              className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+              className="text-sm text-zinc-600 hover:text-zinc-900:text-white"
             >
               ← Back to My Listings
             </Link>

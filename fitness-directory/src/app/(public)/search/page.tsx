@@ -28,7 +28,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   const params = await searchParams;
 
   return (
-    <div className="flex min-h-screen flex-col bg-white dark:bg-zinc-950">
+    <div className="flex min-h-screen flex-col bg-[#FFFBF7]">
       <Header showSearch={false} />
 
       <main className="flex-1">
@@ -41,11 +41,11 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                 name="q"
                 defaultValue={params.q || ""}
                 placeholder="Search gyms, equipment, or location..."
-                className="flex-1 rounded-lg border border-zinc-300 px-4 py-3 text-zinc-900 placeholder-zinc-500 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white dark:placeholder-zinc-400"
+                className="flex-1 rounded-xl border border-stone-200 bg-white px-4 py-3 text-stone-900 placeholder-stone-400 focus:border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-100"
               />
               <button
                 type="submit"
-                className="rounded-lg bg-zinc-900 px-6 py-3 font-medium text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100"
+                className="rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 px-6 py-3 font-semibold text-white hover:from-orange-600 hover:to-amber-600 transition-all"
               >
                 Search
               </button>
@@ -55,8 +55,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           <div className="grid gap-8 lg:grid-cols-4">
             {/* Filters Sidebar */}
             <aside className="lg:col-span-1">
-              <div className="sticky top-24 rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
-                <h2 className="mb-4 font-semibold text-zinc-900 dark:text-white">
+              <div className="sticky top-24 rounded-2xl border border-stone-200 bg-white p-5">
+                <h2 className="mb-4 font-semibold text-stone-900">
                   Filters
                 </h2>
                 <Suspense fallback={<SearchFiltersSkeleton />}>
@@ -125,8 +125,8 @@ async function SearchResults({
 
   if (error) {
     return (
-      <div className="rounded-lg border border-dashed border-zinc-300 p-12 text-center dark:border-zinc-700">
-        <p className="text-zinc-500 dark:text-zinc-400">{error}</p>
+      <div className="rounded-lg border border-dashed border-zinc-300 p-12 text-center">
+        <p className="text-zinc-500">{error}</p>
       </div>
     );
   }
@@ -135,17 +135,17 @@ async function SearchResults({
     return (
       <div>
         <div className="mb-4 flex items-center justify-between">
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="text-sm text-zinc-600">
             0 results found {query && `for "${query}"`}
           </p>
         </div>
-        <div className="rounded-lg border border-dashed border-zinc-300 p-12 text-center dark:border-zinc-700">
-          <p className="text-zinc-500 dark:text-zinc-400">
+        <div className="rounded-lg border border-dashed border-zinc-300 p-12 text-center">
+          <p className="text-zinc-500">
             No fitness centers found. Try adjusting your search criteria.
           </p>
           <Link
             href="/submit"
-            className="mt-4 inline-block text-sm font-medium text-zinc-900 hover:underline dark:text-white"
+            className="mt-4 inline-block text-sm font-medium text-zinc-900 hover:underline"
           >
             Don&apos;t see your gym? Add it →
           </Link>
@@ -158,7 +158,7 @@ async function SearchResults({
     <div>
       {/* Results Header */}
       <div className="mb-4 flex items-center justify-between">
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="text-sm text-zinc-600">
           {results.total.toLocaleString()} results found
           {query && ` for "${query}"`}
           {results.processingTimeMs > 0 && (
@@ -257,24 +257,30 @@ async function SearchResultsFilters({
   return <SearchFilters facets={facets} />;
 }
 
-// Sort select component
+// Sort select component - uses links instead of onChange for server component compatibility
 function SortSelect({ currentSort }: { currentSort: string }) {
   return (
-    <form>
-      <select
-        name="sort"
-        defaultValue={currentSort}
-        onChange={(e) => {
-          const form = e.target.form;
-          if (form) form.submit();
-        }}
-        className="rounded border border-zinc-300 bg-white px-3 py-1 text-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-white"
+    <div className="flex items-center gap-2 text-sm">
+      <span className="text-stone-500">Sort:</span>
+      <Link
+        href="?sort=relevance"
+        className={`px-2 py-1 rounded ${currentSort === "relevance" ? "bg-orange-100 text-orange-700 font-medium" : "text-stone-600 hover:bg-stone-100"}`}
       >
-        <option value="relevance">Sort by: Relevance</option>
-        <option value="newest">Newest</option>
-        <option value="name">Name (A-Z)</option>
-      </select>
-    </form>
+        Relevance
+      </Link>
+      <Link
+        href="?sort=newest"
+        className={`px-2 py-1 rounded ${currentSort === "newest" ? "bg-orange-100 text-orange-700 font-medium" : "text-stone-600 hover:bg-stone-100"}`}
+      >
+        Newest
+      </Link>
+      <Link
+        href="?sort=name"
+        className={`px-2 py-1 rounded ${currentSort === "name" ? "bg-orange-100 text-orange-700 font-medium" : "text-stone-600 hover:bg-stone-100"}`}
+      >
+        A-Z
+      </Link>
+    </div>
   );
 }
 
@@ -314,7 +320,7 @@ function Pagination({
       {currentPage > 1 && (
         <Link
           href={createPageUrl(currentPage - 1)}
-          className="rounded px-3 py-2 text-sm text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+          className="rounded px-3 py-2 text-sm text-zinc-600 hover:bg-zinc-100:bg-zinc-800"
         >
           Previous
         </Link>
@@ -324,7 +330,7 @@ function Pagination({
         <>
           <Link
             href={createPageUrl(1)}
-            className="rounded px-3 py-2 text-sm text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+            className="rounded px-3 py-2 text-sm text-zinc-600 hover:bg-zinc-100:bg-zinc-800"
           >
             1
           </Link>
@@ -340,8 +346,8 @@ function Pagination({
           href={createPageUrl(page)}
           className={`rounded px-3 py-2 text-sm ${
             page === currentPage
-              ? "bg-zinc-900 text-white dark:bg-white dark:text-zinc-900"
-              : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+              ? "bg-zinc-900 text-white"
+              : "text-zinc-600 hover:bg-zinc-100:bg-zinc-800"
           }`}
         >
           {page}
@@ -355,7 +361,7 @@ function Pagination({
           )}
           <Link
             href={createPageUrl(totalPages)}
-            className="rounded px-3 py-2 text-sm text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+            className="rounded px-3 py-2 text-sm text-zinc-600 hover:bg-zinc-100:bg-zinc-800"
           >
             {totalPages}
           </Link>
@@ -365,7 +371,7 @@ function Pagination({
       {currentPage < totalPages && (
         <Link
           href={createPageUrl(currentPage + 1)}
-          className="rounded px-3 py-2 text-sm text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+          className="rounded px-3 py-2 text-sm text-zinc-600 hover:bg-zinc-100:bg-zinc-800"
         >
           Next
         </Link>
@@ -379,8 +385,8 @@ function SearchResultsSkeleton() {
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
-        <div className="h-5 w-32 animate-pulse rounded bg-zinc-200 dark:bg-zinc-700" />
-        <div className="h-8 w-40 animate-pulse rounded bg-zinc-200 dark:bg-zinc-700" />
+        <div className="h-5 w-32 animate-pulse rounded bg-zinc-200" />
+        <div className="h-8 w-40 animate-pulse rounded bg-zinc-200" />
       </div>
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {[...Array(6)].map((_, i) => (

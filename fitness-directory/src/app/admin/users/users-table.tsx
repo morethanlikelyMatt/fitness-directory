@@ -29,32 +29,32 @@ export function UsersTable({ users }: UsersTableProps) {
 
   if (users.length === 0) {
     return (
-      <div className="rounded-xl border border-dashed border-zinc-300 bg-white p-12 text-center dark:border-zinc-700 dark:bg-zinc-900">
-        <p className="text-zinc-500 dark:text-zinc-400">No users found</p>
+      <div className="rounded-xl border border-dashed border-zinc-300 bg-white p-12 text-center">
+        <p className="text-zinc-500">No users found</p>
       </div>
     );
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
+    <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white">
       <table className="w-full">
-        <thead className="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-800/50">
+        <thead className="border-b border-zinc-200 bg-zinc-50">
           <tr>
-            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500">
               User
             </th>
-            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500">
               Role
             </th>
-            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500">
               Joined
             </th>
-            <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+            <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-zinc-500">
               Actions
             </th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
+        <tbody className="divide-y divide-zinc-200">
           {users.map((user) => (
             <tr
               key={user.id}
@@ -62,10 +62,10 @@ export function UsersTable({ users }: UsersTableProps) {
             >
               <td className="px-4 py-3">
                 <div>
-                  <p className="font-medium text-zinc-900 dark:text-white">
+                  <p className="font-medium text-zinc-900">
                     {user.name || "No name"}
                   </p>
-                  <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                  <p className="text-sm text-zinc-500">
                     {user.email}
                   </p>
                 </div>
@@ -74,16 +74,16 @@ export function UsersTable({ users }: UsersTableProps) {
                 <span
                   className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium capitalize ${
                     user.role === "admin"
-                      ? "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400"
+                      ? "bg-purple-100 text-purple-700"
                       : user.role === "owner"
-                        ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
-                        : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
+                        ? "bg-blue-100 text-blue-700"
+                        : "bg-zinc-100 text-zinc-600"
                   }`}
                 >
                   {user.role}
                 </span>
               </td>
-              <td className="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-400">
+              <td className="px-4 py-3 text-sm text-zinc-600">
                 {new Date(user.created_at).toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
@@ -95,7 +95,7 @@ export function UsersTable({ users }: UsersTableProps) {
                   value={user.role}
                   onChange={(e) => handleRoleChange(user.id, e.target.value)}
                   disabled={loadingId === user.id}
-                  className="rounded-lg border border-zinc-200 bg-white px-2 py-1 text-sm dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                  className="rounded-lg border border-zinc-200 bg-white px-2 py-1 text-sm"
                 >
                   <option value="user">User</option>
                   <option value="owner">Owner</option>

@@ -85,16 +85,16 @@ export default async function AdminListingsPage({ searchParams }: PageProps) {
     <div>
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">
+          <h1 className="text-2xl font-bold text-zinc-900">
             Listings
           </h1>
-          <p className="mt-1 text-zinc-600 dark:text-zinc-400">
+          <p className="mt-1 text-zinc-600">
             {total} listings total
           </p>
         </div>
         <Link
           href="/admin/listings/new"
-          className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100"
+          className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800:bg-zinc-100"
         >
           Add Listing
         </Link>
@@ -108,7 +108,7 @@ export default async function AdminListingsPage({ searchParams }: PageProps) {
             name="search"
             placeholder="Search by name..."
             defaultValue={search}
-            className="w-full max-w-xs rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm focus:border-zinc-400 focus:outline-none dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+            className="w-full max-w-xs rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm focus:border-zinc-400 focus:outline-none"
           />
         </form>
         <div className="flex gap-2">
@@ -120,7 +120,7 @@ export default async function AdminListingsPage({ searchParams }: PageProps) {
               url.searchParams.delete("page");
               window.location.href = url.toString();
             }}
-            className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+            className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm"
           >
             <option value="all">All Status</option>
             <option value="pending">Pending</option>
@@ -136,7 +136,7 @@ export default async function AdminListingsPage({ searchParams }: PageProps) {
               url.searchParams.delete("page");
               window.location.href = url.toString();
             }}
-            className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+            className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm"
           >
             <option value="all">All Tiers</option>
             <option value="free">Free</option>
@@ -153,14 +153,14 @@ export default async function AdminListingsPage({ searchParams }: PageProps) {
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="mt-6 flex items-center justify-between">
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="text-sm text-zinc-600">
             Page {page} of {totalPages}
           </p>
           <div className="flex gap-2">
             {page > 1 && (
               <Link
                 href={`/admin/listings?page=${page - 1}&status=${status}&tier=${tier}&search=${search}`}
-                className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-800"
+                className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm hover:bg-zinc-50:bg-zinc-800"
               >
                 Previous
               </Link>
@@ -168,7 +168,7 @@ export default async function AdminListingsPage({ searchParams }: PageProps) {
             {page < totalPages && (
               <Link
                 href={`/admin/listings?page=${page + 1}&status=${status}&tier=${tier}&search=${search}`}
-                className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-800"
+                className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm hover:bg-zinc-50:bg-zinc-800"
               >
                 Next
               </Link>

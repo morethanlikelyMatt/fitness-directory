@@ -114,10 +114,10 @@ export default async function AdminDashboard() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">
+      <h1 className="text-2xl font-bold text-zinc-900">
         Dashboard Overview
       </h1>
-      <p className="mt-1 text-zinc-600 dark:text-zinc-400">
+      <p className="mt-1 text-zinc-600">
         Platform statistics and recent activity
       </p>
 
@@ -127,15 +127,15 @@ export default async function AdminDashboard() {
           <Link
             key={stat.label}
             href={stat.href}
-            className="rounded-xl border border-zinc-200 bg-white p-6 transition-shadow hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
+            className="rounded-xl border border-zinc-200 bg-white p-6 transition-shadow hover:shadow-md"
           >
             <div className="flex items-center gap-4">
               <div className={`h-12 w-12 rounded-lg ${stat.color} flex items-center justify-center`}>
                 <span className="text-xl font-bold text-white">{stat.value}</span>
               </div>
               <div>
-                <p className="text-sm text-zinc-500 dark:text-zinc-400">{stat.label}</p>
-                <p className="text-2xl font-bold text-zinc-900 dark:text-white">
+                <p className="text-sm text-zinc-500">{stat.label}</p>
+                <p className="text-2xl font-bold text-zinc-900">
                   {stat.value.toLocaleString()}
                 </p>
               </div>
@@ -147,27 +147,27 @@ export default async function AdminDashboard() {
       {/* Recent Activity */}
       <div className="mt-8 grid gap-8 lg:grid-cols-2">
         {/* Recent Submissions */}
-        <div className="rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
-          <div className="flex items-center justify-between border-b border-zinc-200 px-6 py-4 dark:border-zinc-800">
-            <h2 className="font-semibold text-zinc-900 dark:text-white">
+        <div className="rounded-xl border border-zinc-200 bg-white">
+          <div className="flex items-center justify-between border-b border-zinc-200 px-6 py-4">
+            <h2 className="font-semibold text-zinc-900">
               Recent Submissions
             </h2>
             <Link
               href="/admin/submissions"
-              className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+              className="text-sm text-zinc-600 hover:text-zinc-900:text-white"
             >
               View all &rarr;
             </Link>
           </div>
-          <div className="divide-y divide-zinc-200 dark:divide-zinc-800">
+          <div className="divide-y divide-zinc-200">
             {recentSubmissions.length > 0 ? (
               recentSubmissions.map((submission) => (
                 <div key={submission.id} className="flex items-center justify-between px-6 py-4">
                   <div>
-                    <p className="text-sm font-medium text-zinc-900 dark:text-white">
+                    <p className="text-sm font-medium text-zinc-900">
                       {submission.type === "new_submission" ? "New Gym" : "Claim Request"}
                     </p>
-                    <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                    <p className="text-xs text-zinc-500">
                       {submission.users?.email || "Unknown user"}
                     </p>
                   </div>
@@ -175,10 +175,10 @@ export default async function AdminDashboard() {
                     <span
                       className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${
                         submission.status === "pending"
-                          ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
+                          ? "bg-yellow-100 text-yellow-700"
                           : submission.status === "approved"
-                            ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-                            : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-red-100 text-red-700"
                       }`}
                     >
                       {submission.status}
@@ -198,27 +198,27 @@ export default async function AdminDashboard() {
         </div>
 
         {/* Recent Listings */}
-        <div className="rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
-          <div className="flex items-center justify-between border-b border-zinc-200 px-6 py-4 dark:border-zinc-800">
-            <h2 className="font-semibold text-zinc-900 dark:text-white">
+        <div className="rounded-xl border border-zinc-200 bg-white">
+          <div className="flex items-center justify-between border-b border-zinc-200 px-6 py-4">
+            <h2 className="font-semibold text-zinc-900">
               Recent Listings
             </h2>
             <Link
               href="/admin/listings"
-              className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+              className="text-sm text-zinc-600 hover:text-zinc-900:text-white"
             >
               View all &rarr;
             </Link>
           </div>
-          <div className="divide-y divide-zinc-200 dark:divide-zinc-800">
+          <div className="divide-y divide-zinc-200">
             {recentListings.length > 0 ? (
               recentListings.map((listing) => (
                 <div key={listing.id} className="flex items-center justify-between px-6 py-4">
                   <div>
-                    <p className="text-sm font-medium text-zinc-900 dark:text-white">
+                    <p className="text-sm font-medium text-zinc-900">
                       {listing.name}
                     </p>
-                    <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                    <p className="text-xs text-zinc-500">
                       {listing.city}
                     </p>
                   </div>
@@ -226,10 +226,10 @@ export default async function AdminDashboard() {
                     <span
                       className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${
                         listing.status === "verified" || listing.status === "claimed"
-                          ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                          ? "bg-green-100 text-green-700"
                           : listing.status === "pending"
-                            ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
-                            : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
+                            ? "bg-yellow-100 text-yellow-700"
+                            : "bg-zinc-100 text-zinc-600"
                       }`}
                     >
                       {listing.status}

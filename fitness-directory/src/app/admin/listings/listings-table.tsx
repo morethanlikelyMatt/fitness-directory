@@ -54,38 +54,38 @@ export function ListingsTable({ listings }: ListingsTableProps) {
 
   if (listings.length === 0) {
     return (
-      <div className="rounded-xl border border-dashed border-zinc-300 bg-white p-12 text-center dark:border-zinc-700 dark:bg-zinc-900">
-        <p className="text-zinc-500 dark:text-zinc-400">No listings found</p>
+      <div className="rounded-xl border border-dashed border-zinc-300 bg-white p-12 text-center">
+        <p className="text-zinc-500">No listings found</p>
       </div>
     );
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
+    <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white">
       <table className="w-full">
-        <thead className="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-800/50">
+        <thead className="border-b border-zinc-200 bg-zinc-50">
           <tr>
-            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500">
               Name
             </th>
-            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500">
               Location
             </th>
-            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500">
               Type
             </th>
-            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500">
               Status
             </th>
-            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+            <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500">
               Tier
             </th>
-            <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+            <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-zinc-500">
               Actions
             </th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
+        <tbody className="divide-y divide-zinc-200">
           {listings.map((listing) => (
             <tr
               key={listing.id}
@@ -95,12 +95,12 @@ export function ListingsTable({ listings }: ListingsTableProps) {
                 <div>
                   <Link
                     href={`/gym/${listing.slug}`}
-                    className="font-medium text-zinc-900 hover:underline dark:text-white"
+                    className="font-medium text-zinc-900 hover:underline"
                   >
                     {listing.name}
                   </Link>
                   {listing.owner_id && (
-                    <span className="ml-2 text-xs text-green-600 dark:text-green-400">
+                    <span className="ml-2 text-xs text-green-600">
                       Claimed
                     </span>
                   )}
@@ -109,10 +109,10 @@ export function ListingsTable({ listings }: ListingsTableProps) {
                   {new Date(listing.created_at).toLocaleDateString()}
                 </p>
               </td>
-              <td className="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-400">
+              <td className="px-4 py-3 text-sm text-zinc-600">
                 {listing.city}, {listing.country}
               </td>
-              <td className="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-400">
+              <td className="px-4 py-3 text-sm text-zinc-600">
                 {gymTypeLabels[listing.gym_type] || listing.gym_type}
               </td>
               <td className="px-4 py-3">
@@ -122,10 +122,10 @@ export function ListingsTable({ listings }: ListingsTableProps) {
                   disabled={loadingId === listing.id}
                   className={`rounded-md border px-2 py-1 text-xs font-medium ${
                     listing.status === "verified" || listing.status === "claimed"
-                      ? "border-green-200 bg-green-50 text-green-700 dark:border-green-800 dark:bg-green-900/30 dark:text-green-400"
+                      ? "border-green-200 bg-green-50 text-green-700"
                       : listing.status === "pending"
-                        ? "border-yellow-200 bg-yellow-50 text-yellow-700 dark:border-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400"
-                        : "border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-900/30 dark:text-red-400"
+                        ? "border-yellow-200 bg-yellow-50 text-yellow-700"
+                        : "border-red-200 bg-red-50 text-red-700"
                   }`}
                 >
                   <option value="pending">Pending</option>
@@ -138,8 +138,8 @@ export function ListingsTable({ listings }: ListingsTableProps) {
                 <span
                   className={`rounded-full px-2 py-0.5 text-xs font-medium ${
                     listing.subscription_tier === "premium"
-                      ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
-                      : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
+                      ? "bg-amber-100 text-amber-700"
+                      : "bg-zinc-100 text-zinc-600"
                   }`}
                 >
                   {listing.subscription_tier}
@@ -149,14 +149,14 @@ export function ListingsTable({ listings }: ListingsTableProps) {
                 <div className="flex items-center justify-end gap-2">
                   <Link
                     href={`/admin/listings/${listing.id}/edit`}
-                    className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                    className="text-sm text-zinc-600 hover:text-zinc-900:text-white"
                   >
                     Edit
                   </Link>
                   <button
                     onClick={() => handleDelete(listing.id, listing.name)}
                     disabled={loadingId === listing.id}
-                    className="text-sm text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+                    className="text-sm text-red-600 hover:text-red-700:text-red-300"
                   >
                     Delete
                   </button>

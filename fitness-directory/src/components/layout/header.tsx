@@ -10,14 +10,16 @@ export async function Header({ showSearch = true }: HeaderProps) {
   const user = await getUser();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-zinc-200 bg-white/80 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-950/80">
+    <header className="sticky top-0 z-40 border-b border-stone-200 bg-white/80 backdrop-blur-sm">
       <nav className="mx-auto flex max-w-7xl items-center gap-4 px-6 py-3">
         {/* Logo */}
-        <Link
-          href="/"
-          className="shrink-0 text-lg font-bold text-zinc-900 dark:text-white"
-        >
-          Fitness Directory
+        <Link href="/" className="flex items-center gap-2 shrink-0">
+          <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center">
+            <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+            </svg>
+          </div>
+          <span className="text-lg font-semibold text-stone-900">Fitness Directory</span>
         </Link>
 
         {/* Search Bar (desktop) */}
@@ -33,10 +35,10 @@ export async function Header({ showSearch = true }: HeaderProps) {
         <div className="flex-1 md:hidden" />
 
         {/* Nav Links */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <Link
             href="/search"
-            className="hidden text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white sm:block"
+            className="hidden text-sm font-medium text-stone-600 hover:text-stone-900 transition-colors sm:block"
           >
             Browse
           </Link>
@@ -47,13 +49,13 @@ export async function Header({ showSearch = true }: HeaderProps) {
             <>
               <Link
                 href="/login"
-                className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                className="text-sm font-medium text-stone-600 hover:text-stone-900 transition-colors"
               >
                 Sign in
               </Link>
               <Link
                 href="/submit"
-                className="rounded-lg bg-zinc-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100"
+                className="rounded-full bg-gradient-to-r from-orange-500 to-amber-500 px-4 py-2 text-sm font-semibold text-white hover:from-orange-600 hover:to-amber-600 transition-all"
               >
                 Add Gym
               </Link>
@@ -64,7 +66,7 @@ export async function Header({ showSearch = true }: HeaderProps) {
 
       {/* Search Bar (mobile) */}
       {showSearch && (
-        <div className="border-t border-zinc-100 px-4 py-2 dark:border-zinc-800 md:hidden">
+        <div className="border-t border-stone-100 px-4 py-2 md:hidden">
           <SearchBarCompact />
         </div>
       )}
@@ -80,11 +82,11 @@ function SearchBarCompact() {
         type="text"
         name="q"
         placeholder="Search gyms..."
-        className="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-1.5 text-sm text-zinc-900 placeholder-zinc-500 focus:border-zinc-400 focus:bg-white focus:outline-none dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder-zinc-400 dark:focus:border-zinc-600"
+        className="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-2 text-sm text-stone-900 placeholder-stone-400 focus:border-orange-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-100"
       />
       <button
         type="submit"
-        className="rounded-lg bg-zinc-100 px-3 py-1.5 text-sm font-medium text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
+        className="rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 px-4 py-2 text-sm font-semibold text-white hover:from-orange-600 hover:to-amber-600 transition-all"
       >
         Search
       </button>

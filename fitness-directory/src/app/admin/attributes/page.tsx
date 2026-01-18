@@ -54,10 +54,10 @@ export default async function AdminAttributesPage() {
     <div>
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">
+          <h1 className="text-2xl font-bold text-zinc-900">
             Attributes
           </h1>
-          <p className="mt-1 text-zinc-600 dark:text-zinc-400">
+          <p className="mt-1 text-zinc-600">
             Manage gym equipment, amenities, and features
           </p>
         </div>

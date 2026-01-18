@@ -49,12 +49,27 @@ interface FacetCount {
   count: number;
 }
 
+// Common terms that are meaningless in gym search context
+const STOPWORDS = new Set([
+  "gym", "gyms", "fitness", "center", "centers", "centre", "centres",
+  "club", "clubs", "studio", "studios", "facility", "facilities",
+  "with", "and", "or", "the", "a", "an", "in", "near", "nearby",
+  "find", "search", "looking", "for", "that", "has", "have", "having"
+]);
+
+function cleanQuery(query: string): string {
+  const words = query.toLowerCase().split(/\s+/);
+  const filtered = words.filter(word => !STOPWORDS.has(word));
+  // If all words were stopwords, return original query
+  return filtered.length > 0 ? filtered.join(" ") : query;
+}
+
 export async function searchFitnessCenters(
   params: SearchParams
 ): Promise<SearchResponse> {
   const client = createSearchClient();
   const {
-    query,
+    query: rawQuery,
     page = 1,
     perPage = 20,
     location,
@@ -67,6 +82,9 @@ export async function searchFitnessCenters(
     subscriptionTier,
     sortBy = "relevance",
   } = params;
+
+  // Clean the query by removing generic gym-related stopwords
+  const query = rawQuery ? cleanQuery(rawQuery) : "";
 
   // Build filter string
   const filters: string[] = [];
@@ -134,12 +152,19 @@ export async function searchFitnessCenters(
   const searchParameters = {
     q: query || "*",
     query_by: "name,description,address,city,attributes",
+    query_by_weights: "5,3,2,2,4", // Prioritize name and attributes
     filter_by: filters.join(" && "),
     sort_by: sortByStr,
     page,
     per_page: perPage,
     facet_by: "gym_type,price_range,attributes,city,country",
     max_facet_values: 50,
+    // Use exhaustive search and allow dropping all tokens for flexible matching
+    // This helps queries like "gym with sauna" find results that match "sauna"
+    // even if "gym" isn't in the searchable fields
+    drop_tokens_threshold: 0,
+    num_typos: 2,
+    exhaustive_search: true,
   };
 
   const response = (await client

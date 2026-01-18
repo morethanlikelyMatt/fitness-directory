@@ -38,44 +38,44 @@ export default async function DashboardPage() {
     "User";
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-50 dark:bg-zinc-950">
+    <div className="flex min-h-screen flex-col bg-zinc-50">
       <Header showSearch={false} />
 
       <main className="flex-1 px-6 py-8">
         <div className="mx-auto max-w-4xl">
           {/* Welcome Section */}
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">
+            <h1 className="text-2xl font-bold text-zinc-900">
               Welcome back, {displayName}
             </h1>
-            <p className="mt-1 text-zinc-600 dark:text-zinc-400">
+            <p className="mt-1 text-zinc-600">
               Manage your fitness center listings and submissions
             </p>
           </div>
 
           {/* Quick Stats */}
           <div className="mb-8 grid gap-4 sm:grid-cols-3">
-            <div className="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
-              <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+            <div className="rounded-xl border border-zinc-200 bg-white p-6">
+              <p className="text-sm font-medium text-zinc-500">
                 Your Listings
               </p>
-              <p className="mt-2 text-3xl font-bold text-zinc-900 dark:text-white">
+              <p className="mt-2 text-3xl font-bold text-zinc-900">
                 {listingsCount ?? 0}
               </p>
             </div>
-            <div className="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
-              <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+            <div className="rounded-xl border border-zinc-200 bg-white p-6">
+              <p className="text-sm font-medium text-zinc-500">
                 Pending Submissions
               </p>
-              <p className="mt-2 text-3xl font-bold text-zinc-900 dark:text-white">
+              <p className="mt-2 text-3xl font-bold text-zinc-900">
                 {pendingCount ?? 0}
               </p>
             </div>
-            <div className="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
-              <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+            <div className="rounded-xl border border-zinc-200 bg-white p-6">
+              <p className="text-sm font-medium text-zinc-500">
                 Account Status
               </p>
-              <p className="mt-2 text-lg font-semibold text-green-600 dark:text-green-500">
+              <p className="mt-2 text-lg font-semibold text-green-600">
                 Active
               </p>
             </div>
@@ -83,17 +83,17 @@ export default async function DashboardPage() {
 
           {/* Quick Actions */}
           <div className="mb-8">
-            <h2 className="mb-4 text-lg font-semibold text-zinc-900 dark:text-white">
+            <h2 className="mb-4 text-lg font-semibold text-zinc-900">
               Quick Actions
             </h2>
             <div className="grid gap-4 sm:grid-cols-2">
               <Link
                 href="/submit"
-                className="flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-6 transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800"
+                className="flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-6 transition-colors hover:bg-zinc-50:bg-zinc-800"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-800">
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-100">
                   <svg
-                    className="h-6 w-6 text-zinc-600 dark:text-zinc-400"
+                    className="h-6 w-6 text-zinc-600"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -107,10 +107,10 @@ export default async function DashboardPage() {
                   </svg>
                 </div>
                 <div>
-                  <p className="font-medium text-zinc-900 dark:text-white">
+                  <p className="font-medium text-zinc-900">
                     Add a Gym
                   </p>
-                  <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                  <p className="text-sm text-zinc-500">
                     Submit a new fitness center listing
                   </p>
                 </div>
@@ -118,11 +118,11 @@ export default async function DashboardPage() {
 
               <Link
                 href="/owner"
-                className="flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-6 transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800"
+                className="flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-6 transition-colors hover:bg-zinc-50:bg-zinc-800"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-800">
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-100">
                   <svg
-                    className="h-6 w-6 text-zinc-600 dark:text-zinc-400"
+                    className="h-6 w-6 text-zinc-600"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -136,10 +136,10 @@ export default async function DashboardPage() {
                   </svg>
                 </div>
                 <div>
-                  <p className="font-medium text-zinc-900 dark:text-white">
+                  <p className="font-medium text-zinc-900">
                     My Listings
                   </p>
-                  <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                  <p className="text-sm text-zinc-500">
                     Manage your fitness center listings
                   </p>
                 </div>
@@ -147,11 +147,11 @@ export default async function DashboardPage() {
 
               <Link
                 href="/search"
-                className="flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-6 transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800"
+                className="flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-6 transition-colors hover:bg-zinc-50:bg-zinc-800"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-800">
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-100">
                   <svg
-                    className="h-6 w-6 text-zinc-600 dark:text-zinc-400"
+                    className="h-6 w-6 text-zinc-600"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -165,17 +165,17 @@ export default async function DashboardPage() {
                   </svg>
                 </div>
                 <div>
-                  <p className="font-medium text-zinc-900 dark:text-white">
+                  <p className="font-medium text-zinc-900">
                     Browse Gyms
                   </p>
-                  <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                  <p className="text-sm text-zinc-500">
                     Explore fitness centers near you
                   </p>
                 </div>
               </Link>
 
-              <div className="flex items-center gap-4 rounded-xl border border-dashed border-zinc-300 bg-zinc-50 p-6 dark:border-zinc-700 dark:bg-zinc-900/50">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-200 dark:bg-zinc-800">
+              <div className="flex items-center gap-4 rounded-xl border border-dashed border-zinc-300 bg-zinc-50 p-6">
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-zinc-200">
                   <svg
                     className="h-6 w-6 text-zinc-400"
                     fill="none"
@@ -191,10 +191,10 @@ export default async function DashboardPage() {
                   </svg>
                 </div>
                 <div>
-                  <p className="font-medium text-zinc-500 dark:text-zinc-400">
+                  <p className="font-medium text-zinc-500">
                     Upgrade to Premium
                   </p>
-                  <p className="text-sm text-zinc-400 dark:text-zinc-500">
+                  <p className="text-sm text-zinc-400">
                     Coming soon
                   </p>
                 </div>
@@ -203,24 +203,24 @@ export default async function DashboardPage() {
           </div>
 
           {/* Account Info */}
-          <div className="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
-            <h2 className="mb-4 text-lg font-semibold text-zinc-900 dark:text-white">
+          <div className="rounded-xl border border-zinc-200 bg-white p-6">
+            <h2 className="mb-4 text-lg font-semibold text-zinc-900">
               Account Information
             </h2>
             <dl className="space-y-4">
               <div>
-                <dt className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+                <dt className="text-sm font-medium text-zinc-500">
                   Email
                 </dt>
-                <dd className="mt-1 text-zinc-900 dark:text-white">
+                <dd className="mt-1 text-zinc-900">
                   {user.email}
                 </dd>
               </div>
               <div>
-                <dt className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+                <dt className="text-sm font-medium text-zinc-500">
                   Member Since
                 </dt>
-                <dd className="mt-1 text-zinc-900 dark:text-white">
+                <dd className="mt-1 text-zinc-900">
                   {new Date(user.created_at).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "long",

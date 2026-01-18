@@ -93,7 +93,7 @@ export function SearchFilters({ facets }: SearchFiltersProps) {
       {hasActiveFilters && (
         <button
           onClick={clearAllFilters}
-          className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+          className="text-sm font-medium text-zinc-600 hover:text-zinc-900:text-white"
         >
           Clear all filters
         </button>
@@ -106,9 +106,9 @@ export function SearchFilters({ facets }: SearchFiltersProps) {
             type="checkbox"
             checked={is24Hour}
             onChange={toggle24Hour}
-            className="h-4 w-4 rounded border-zinc-300 text-zinc-900 focus:ring-zinc-500 dark:border-zinc-600 dark:bg-zinc-800"
+            className="h-4 w-4 rounded border-zinc-300 text-zinc-900 focus:ring-zinc-500"
           />
-          <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+          <span className="text-sm font-medium text-zinc-700">
             Open 24 hours
           </span>
         </label>
@@ -117,7 +117,7 @@ export function SearchFilters({ facets }: SearchFiltersProps) {
       {/* Gym Type Filter */}
       {facets.gymTypes.length > 0 && (
         <div>
-          <h3 className="mb-3 text-sm font-semibold text-zinc-900 dark:text-white">
+          <h3 className="mb-3 text-sm font-semibold text-zinc-900">
             Gym Type
           </h3>
           <div className="space-y-2">
@@ -127,12 +127,12 @@ export function SearchFilters({ facets }: SearchFiltersProps) {
                   type="checkbox"
                   checked={selectedGymTypes.includes(value)}
                   onChange={() => toggleFilter("type", value, selectedGymTypes)}
-                  className="h-4 w-4 rounded border-zinc-300 text-zinc-900 focus:ring-zinc-500 dark:border-zinc-600 dark:bg-zinc-800"
+                  className="h-4 w-4 rounded border-zinc-300 text-zinc-900 focus:ring-zinc-500"
                 />
-                <span className="flex-1 text-sm text-zinc-600 dark:text-zinc-400">
+                <span className="flex-1 text-sm text-zinc-600">
                   {gymTypeLabels[value] || value}
                 </span>
-                <span className="text-xs text-zinc-400 dark:text-zinc-500">
+                <span className="text-xs text-zinc-400">
                   {count}
                 </span>
               </label>
@@ -144,7 +144,7 @@ export function SearchFilters({ facets }: SearchFiltersProps) {
       {/* Price Range Filter */}
       {facets.priceRanges.length > 0 && (
         <div>
-          <h3 className="mb-3 text-sm font-semibold text-zinc-900 dark:text-white">
+          <h3 className="mb-3 text-sm font-semibold text-zinc-900">
             Price Range
           </h3>
           <div className="space-y-2">
@@ -154,12 +154,12 @@ export function SearchFilters({ facets }: SearchFiltersProps) {
                   type="checkbox"
                   checked={selectedPriceRanges.includes(value)}
                   onChange={() => toggleFilter("price", value, selectedPriceRanges)}
-                  className="h-4 w-4 rounded border-zinc-300 text-zinc-900 focus:ring-zinc-500 dark:border-zinc-600 dark:bg-zinc-800"
+                  className="h-4 w-4 rounded border-zinc-300 text-zinc-900 focus:ring-zinc-500"
                 />
-                <span className="flex-1 text-sm text-zinc-600 dark:text-zinc-400">
+                <span className="flex-1 text-sm text-zinc-600">
                   {value}
                 </span>
-                <span className="text-xs text-zinc-400 dark:text-zinc-500">
+                <span className="text-xs text-zinc-400">
                   {count}
                 </span>
               </label>
@@ -171,7 +171,7 @@ export function SearchFilters({ facets }: SearchFiltersProps) {
       {/* Equipment & Amenities Filter */}
       {facets.attributes.length > 0 && (
         <div>
-          <h3 className="mb-3 text-sm font-semibold text-zinc-900 dark:text-white">
+          <h3 className="mb-3 text-sm font-semibold text-zinc-900">
             Equipment & Amenities
           </h3>
           <div className="max-h-64 space-y-2 overflow-y-auto">
@@ -181,12 +181,12 @@ export function SearchFilters({ facets }: SearchFiltersProps) {
                   type="checkbox"
                   checked={selectedAttributes.includes(value)}
                   onChange={() => toggleFilter("attr", value, selectedAttributes)}
-                  className="h-4 w-4 rounded border-zinc-300 text-zinc-900 focus:ring-zinc-500 dark:border-zinc-600 dark:bg-zinc-800"
+                  className="h-4 w-4 rounded border-zinc-300 text-zinc-900 focus:ring-zinc-500"
                 />
-                <span className="flex-1 truncate text-sm text-zinc-600 dark:text-zinc-400">
+                <span className="flex-1 truncate text-sm text-zinc-600">
                   {value}
                 </span>
-                <span className="text-xs text-zinc-400 dark:text-zinc-500">
+                <span className="text-xs text-zinc-400">
                   {count}
                 </span>
               </label>
@@ -202,23 +202,23 @@ export function SearchFiltersSkeleton() {
   return (
     <div className="space-y-6">
       <div>
-        <div className="mb-3 h-4 w-20 animate-pulse rounded bg-zinc-200 dark:bg-zinc-700" />
+        <div className="mb-3 h-4 w-20 animate-pulse rounded bg-zinc-200" />
         <div className="space-y-2">
           {[...Array(5)].map((_, i) => (
             <div key={i} className="flex items-center gap-2">
-              <div className="h-4 w-4 animate-pulse rounded bg-zinc-200 dark:bg-zinc-700" />
-              <div className="h-4 flex-1 animate-pulse rounded bg-zinc-200 dark:bg-zinc-700" />
+              <div className="h-4 w-4 animate-pulse rounded bg-zinc-200" />
+              <div className="h-4 flex-1 animate-pulse rounded bg-zinc-200" />
             </div>
           ))}
         </div>
       </div>
       <div>
-        <div className="mb-3 h-4 w-24 animate-pulse rounded bg-zinc-200 dark:bg-zinc-700" />
+        <div className="mb-3 h-4 w-24 animate-pulse rounded bg-zinc-200" />
         <div className="space-y-2">
           {[...Array(4)].map((_, i) => (
             <div key={i} className="flex items-center gap-2">
-              <div className="h-4 w-4 animate-pulse rounded bg-zinc-200 dark:bg-zinc-700" />
-              <div className="h-4 flex-1 animate-pulse rounded bg-zinc-200 dark:bg-zinc-700" />
+              <div className="h-4 w-4 animate-pulse rounded bg-zinc-200" />
+              <div className="h-4 flex-1 animate-pulse rounded bg-zinc-200" />
             </div>
           ))}
         </div>

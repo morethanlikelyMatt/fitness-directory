@@ -84,13 +84,13 @@ export default async function AdminSubmissionsPage({ searchParams }: PageProps) 
     <div>
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">
+          <h1 className="text-2xl font-bold text-zinc-900">
             Submissions
           </h1>
-          <p className="mt-1 text-zinc-600 dark:text-zinc-400">
+          <p className="mt-1 text-zinc-600">
             {total} submissions total
             {pendingCount > 0 && (
-              <span className="ml-2 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+              <span className="ml-2 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700">
                 {pendingCount} pending
               </span>
             )}
@@ -100,15 +100,15 @@ export default async function AdminSubmissionsPage({ searchParams }: PageProps) 
 
       {/* Filters */}
       <div className="mt-6 flex gap-4">
-        <div className="flex rounded-lg border border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-800">
+        <div className="flex rounded-lg border border-zinc-200 bg-white">
           {["pending", "approved", "rejected", "all"].map((s) => (
             <a
               key={s}
               href={`/admin/submissions?status=${s}&type=${type}`}
               className={`px-4 py-2 text-sm font-medium capitalize ${
                 status === s
-                  ? "bg-zinc-900 text-white dark:bg-white dark:text-zinc-900"
-                  : "text-zinc-600 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:bg-zinc-700"
+                  ? "bg-zinc-900 text-white"
+                  : "text-zinc-600 hover:bg-zinc-50:bg-zinc-700"
               } ${s === "pending" ? "rounded-l-lg" : ""} ${s === "all" ? "rounded-r-lg" : ""}`}
             >
               {s}
@@ -120,7 +120,7 @@ export default async function AdminSubmissionsPage({ searchParams }: PageProps) 
           onChange={(e) => {
             window.location.href = `/admin/submissions?status=${status}&type=${e.target.value}`;
           }}
-          className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+          className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm"
         >
           <option value="all">All Types</option>
           <option value="new_submission">New Submissions</option>
@@ -136,14 +136,14 @@ export default async function AdminSubmissionsPage({ searchParams }: PageProps) 
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="mt-6 flex items-center justify-between">
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="text-sm text-zinc-600">
             Page {page} of {totalPages}
           </p>
           <div className="flex gap-2">
             {page > 1 && (
               <a
                 href={`/admin/submissions?page=${page - 1}&status=${status}&type=${type}`}
-                className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-800"
+                className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm hover:bg-zinc-50:bg-zinc-800"
               >
                 Previous
               </a>
@@ -151,7 +151,7 @@ export default async function AdminSubmissionsPage({ searchParams }: PageProps) 
             {page < totalPages && (
               <a
                 href={`/admin/submissions?page=${page + 1}&status=${status}&type=${type}`}
-                className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-800"
+                className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm hover:bg-zinc-50:bg-zinc-800"
               >
                 Next
               </a>

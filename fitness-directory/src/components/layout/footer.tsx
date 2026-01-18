@@ -2,15 +2,20 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="border-t border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900">
+    <footer className="border-t border-stone-200 bg-white">
       <div className="mx-auto max-w-7xl px-6 py-12">
         <div className="grid gap-8 md:grid-cols-4">
           {/* Brand */}
           <div>
-            <Link href="/" className="text-lg font-bold text-zinc-900 dark:text-white">
-              Fitness Directory
+            <Link href="/" className="flex items-center gap-2">
+              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center">
+                <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                </svg>
+              </div>
+              <span className="text-lg font-semibold text-stone-900">Fitness Directory</span>
             </Link>
-            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+            <p className="mt-3 text-sm text-stone-500 leading-relaxed">
               Find your perfect gym. Search fitness centers worldwide by
               equipment, amenities, and location.
             </p>
@@ -18,12 +23,12 @@ export function Footer() {
 
           {/* Browse */}
           <div>
-            <h3 className="font-semibold text-zinc-900 dark:text-white">Browse</h3>
-            <ul className="mt-3 space-y-2 text-sm">
+            <h3 className="font-semibold text-stone-900">Browse</h3>
+            <ul className="mt-4 space-y-2.5 text-sm">
               <li>
                 <Link
                   href="/search?type=commercial"
-                  className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                  className="text-stone-600 hover:text-orange-600 transition-colors"
                 >
                   Commercial Gyms
                 </Link>
@@ -31,7 +36,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/search?type=crossfit"
-                  className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                  className="text-stone-600 hover:text-orange-600 transition-colors"
                 >
                   CrossFit Boxes
                 </Link>
@@ -39,7 +44,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/search?type=powerlifting"
-                  className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                  className="text-stone-600 hover:text-orange-600 transition-colors"
                 >
                   Powerlifting Gyms
                 </Link>
@@ -47,7 +52,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/search?24hour=true"
-                  className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                  className="text-stone-600 hover:text-orange-600 transition-colors"
                 >
                   24-Hour Gyms
                 </Link>
@@ -57,12 +62,12 @@ export function Footer() {
 
           {/* For Owners */}
           <div>
-            <h3 className="font-semibold text-zinc-900 dark:text-white">For Owners</h3>
-            <ul className="mt-3 space-y-2 text-sm">
+            <h3 className="font-semibold text-stone-900">For Owners</h3>
+            <ul className="mt-4 space-y-2.5 text-sm">
               <li>
                 <Link
                   href="/submit"
-                  className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                  className="text-stone-600 hover:text-orange-600 transition-colors"
                 >
                   Add Your Gym
                 </Link>
@@ -70,7 +75,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/submit"
-                  className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                  className="text-stone-600 hover:text-orange-600 transition-colors"
                 >
                   Claim Listing
                 </Link>
@@ -78,7 +83,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/owner"
-                  className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                  className="text-stone-600 hover:text-orange-600 transition-colors"
                 >
                   Owner Dashboard
                 </Link>
@@ -88,12 +93,12 @@ export function Footer() {
 
           {/* Company */}
           <div>
-            <h3 className="font-semibold text-zinc-900 dark:text-white">Company</h3>
-            <ul className="mt-3 space-y-2 text-sm">
+            <h3 className="font-semibold text-stone-900">Company</h3>
+            <ul className="mt-4 space-y-2.5 text-sm">
               <li>
                 <Link
                   href="/about"
-                  className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                  className="text-stone-600 hover:text-orange-600 transition-colors"
                 >
                   About
                 </Link>
@@ -101,7 +106,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/contact"
-                  className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                  className="text-stone-600 hover:text-orange-600 transition-colors"
                 >
                   Contact
                 </Link>
@@ -109,7 +114,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/privacy"
-                  className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                  className="text-stone-600 hover:text-orange-600 transition-colors"
                 >
                   Privacy Policy
                 </Link>
@@ -117,7 +122,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/terms"
-                  className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                  className="text-stone-600 hover:text-orange-600 transition-colors"
                 >
                   Terms of Service
                 </Link>
@@ -126,8 +131,8 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 border-t border-zinc-200 pt-8 dark:border-zinc-800">
-          <p className="text-center text-sm text-zinc-500 dark:text-zinc-400">
+        <div className="mt-12 border-t border-stone-200 pt-8">
+          <p className="text-center text-sm text-stone-500">
             &copy; {new Date().getFullYear()} Fitness Directory. All rights reserved.
           </p>
         </div>

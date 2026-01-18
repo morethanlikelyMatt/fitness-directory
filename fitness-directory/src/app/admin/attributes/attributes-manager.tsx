@@ -74,7 +74,7 @@ export function AttributesManager({
       {!isAdding && (
         <button
           onClick={() => setIsAdding(true)}
-          className="mb-6 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100"
+          className="mb-6 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800:bg-zinc-100"
         >
           Add Attribute
         </button>
@@ -82,8 +82,8 @@ export function AttributesManager({
 
       {/* Add form */}
       {isAdding && (
-        <div className="mb-6 rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
-          <h3 className="mb-4 font-semibold text-zinc-900 dark:text-white">
+        <div className="mb-6 rounded-xl border border-zinc-200 bg-white p-4">
+          <h3 className="mb-4 font-semibold text-zinc-900">
             New Attribute
           </h3>
           <div className="grid gap-4 sm:grid-cols-3">
@@ -92,12 +92,12 @@ export function AttributesManager({
               placeholder="Name"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="rounded-lg border border-zinc-200 px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+              className="rounded-lg border border-zinc-200 px-3 py-2 text-sm"
             />
             <select
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-              className="rounded-lg border border-zinc-200 px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+              className="rounded-lg border border-zinc-200 px-3 py-2 text-sm"
             >
               {categoryOrder.map((cat) => (
                 <option key={cat} value={cat}>
@@ -110,7 +110,7 @@ export function AttributesManager({
               placeholder="Icon (optional)"
               value={formData.icon}
               onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-              className="rounded-lg border border-zinc-200 px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+              className="rounded-lg border border-zinc-200 px-3 py-2 text-sm"
             />
           </div>
           <div className="mt-4 flex gap-2">
@@ -126,7 +126,7 @@ export function AttributesManager({
                 setIsAdding(false);
                 setFormData({ name: "", category: "equipment", icon: "" });
               }}
-              className="rounded-lg border border-zinc-200 px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              className="rounded-lg border border-zinc-200 px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-50:bg-zinc-800"
             >
               Cancel
             </button>
@@ -142,7 +142,7 @@ export function AttributesManager({
 
           return (
             <div key={category}>
-              <h2 className="mb-4 text-lg font-semibold text-zinc-900 dark:text-white">
+              <h2 className="mb-4 text-lg font-semibold text-zinc-900">
                 {categoryLabels[category]}
                 <span className="ml-2 text-sm font-normal text-zinc-500">
                   ({attrs.length})
@@ -152,7 +152,7 @@ export function AttributesManager({
                 {attrs.map((attr) => (
                   <div
                     key={attr.id}
-                    className="flex items-center justify-between rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900"
+                    className="flex items-center justify-between rounded-lg border border-zinc-200 bg-white p-3"
                   >
                     {editingId === attr.id ? (
                       <div className="flex flex-1 items-center gap-2">
@@ -162,7 +162,7 @@ export function AttributesManager({
                           onChange={(e) =>
                             setFormData({ ...formData, name: e.target.value })
                           }
-                          className="flex-1 rounded border border-zinc-200 px-2 py-1 text-sm dark:border-zinc-700 dark:bg-zinc-800"
+                          className="flex-1 rounded border border-zinc-200 px-2 py-1 text-sm"
                         />
                         <button
                           onClick={() => handleUpdate(attr.id)}
@@ -184,14 +184,14 @@ export function AttributesManager({
                           {attr.icon && (
                             <span className="text-lg">{attr.icon}</span>
                           )}
-                          <span className="text-sm text-zinc-900 dark:text-white">
+                          <span className="text-sm text-zinc-900">
                             {attr.name}
                           </span>
                         </div>
                         <div className="flex items-center gap-2">
                           <button
                             onClick={() => startEdit(attr)}
-                            className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+                            className="text-sm text-zinc-600 hover:text-zinc-900:text-white"
                           >
                             Edit
                           </button>

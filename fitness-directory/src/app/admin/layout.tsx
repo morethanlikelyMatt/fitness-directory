@@ -73,11 +73,11 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
   }
 
   return (
-    <div className="flex min-h-screen bg-zinc-50 dark:bg-zinc-950">
+    <div className="flex min-h-screen bg-zinc-50">
       {/* Sidebar */}
-      <aside className="fixed inset-y-0 left-0 w-64 border-r border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
-        <div className="flex h-16 items-center border-b border-zinc-200 px-6 dark:border-zinc-800">
-          <Link href="/admin" className="text-lg font-bold text-zinc-900 dark:text-white">
+      <aside className="fixed inset-y-0 left-0 w-64 border-r border-zinc-200 bg-white">
+        <div className="flex h-16 items-center border-b border-zinc-200 px-6">
+          <Link href="/admin" className="text-lg font-bold text-zinc-900">
             Admin Panel
           </Link>
         </div>
@@ -87,7 +87,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-100:bg-zinc-800"
                 >
                   <NavIcon name={item.icon} />
                   {item.label}
@@ -96,10 +96,10 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
             ))}
           </ul>
         </nav>
-        <div className="absolute bottom-0 left-0 right-0 border-t border-zinc-200 p-4 dark:border-zinc-800">
+        <div className="absolute bottom-0 left-0 right-0 border-t border-zinc-200 p-4">
           <Link
             href="/dashboard"
-            className="flex items-center gap-2 text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+            className="flex items-center gap-2 text-sm text-zinc-600 hover:text-zinc-900:text-white"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />

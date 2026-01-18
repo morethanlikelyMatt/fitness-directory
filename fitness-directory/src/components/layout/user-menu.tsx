@@ -51,9 +51,9 @@ export function UserMenu({ user }: UserMenuProps) {
     <div className="relative" ref={menuRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 rounded-lg border border-zinc-200 px-2 py-1.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+        className="flex items-center gap-2 rounded-lg border border-zinc-200 px-2 py-1.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50:bg-zinc-800"
       >
-        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-zinc-900 text-xs text-white dark:bg-white dark:text-zinc-900">
+        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-zinc-900 text-xs text-white">
           {initials}
         </div>
         <span className="hidden sm:block">{displayName}</span>
@@ -73,9 +73,9 @@ export function UserMenu({ user }: UserMenuProps) {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full z-50 mt-2 w-56 rounded-lg border border-zinc-200 bg-white py-1 shadow-lg dark:border-zinc-700 dark:bg-zinc-900">
-          <div className="border-b border-zinc-100 px-4 py-2 dark:border-zinc-800">
-            <p className="text-sm font-medium text-zinc-900 dark:text-white">
+        <div className="absolute right-0 top-full z-50 mt-2 w-56 rounded-lg border border-zinc-200 bg-white py-1 shadow-lg">
+          <div className="border-b border-zinc-100 px-4 py-2">
+            <p className="text-sm font-medium text-zinc-900">
               {displayName}
             </p>
             <p className="text-xs text-zinc-500">{user.email}</p>
@@ -85,30 +85,30 @@ export function UserMenu({ user }: UserMenuProps) {
             <Link
               href="/dashboard"
               onClick={() => setIsOpen(false)}
-              className="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              className="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-50:bg-zinc-800"
             >
               Dashboard
             </Link>
             <Link
               href="/owner"
               onClick={() => setIsOpen(false)}
-              className="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              className="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-50:bg-zinc-800"
             >
               My Listings
             </Link>
             <Link
               href="/submit"
               onClick={() => setIsOpen(false)}
-              className="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              className="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-50:bg-zinc-800"
             >
               Add a Gym
             </Link>
           </div>
 
-          <div className="border-t border-zinc-100 py-1 dark:border-zinc-800">
+          <div className="border-t border-zinc-100 py-1">
             <button
               onClick={handleLogout}
-              className="block w-full px-4 py-2 text-left text-sm text-zinc-700 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              className="block w-full px-4 py-2 text-left text-sm text-zinc-700 hover:bg-zinc-50:bg-zinc-800"
             >
               Sign out
             </button>
