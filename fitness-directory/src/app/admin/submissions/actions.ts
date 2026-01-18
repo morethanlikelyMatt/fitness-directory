@@ -111,13 +111,22 @@ export async function approveSubmission(id: string) {
         .insert(attributeInserts);
     }
 
-    // Update the user role if they claimed ownership
+    // Update the user role if they claimed ownership (but don't downgrade admins)
     if (submission.is_owner) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      await (supabase as any)
+      const { data: submitterData } = await (supabase as any)
         .from("users")
-        .update({ role: "owner" })
-        .eq("id", submission.user_id);
+        .select("role")
+        .eq("id", submission.user_id)
+        .single();
+
+      if (submitterData?.role !== "admin") {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        await (supabase as any)
+          .from("users")
+          .update({ role: "owner" })
+          .eq("id", submission.user_id);
+      }
     }
   } else if (submission.type === "claim") {
     // Approve the claim - set owner_id on the fitness center
@@ -135,12 +144,21 @@ export async function approveSubmission(id: string) {
       return { error: "Failed to approve claim" };
     }
 
-    // Update user role to owner
+    // Update user role to owner (but don't downgrade admins)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    await (supabase as any)
+    const { data: claimantData } = await (supabase as any)
       .from("users")
-      .update({ role: "owner" })
-      .eq("id", submission.user_id);
+      .select("role")
+      .eq("id", submission.user_id)
+      .single();
+
+    if (claimantData?.role !== "admin") {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await (supabase as any)
+        .from("users")
+        .update({ role: "owner" })
+        .eq("id", submission.user_id);
+    }
   }
 
   // Update submission status
