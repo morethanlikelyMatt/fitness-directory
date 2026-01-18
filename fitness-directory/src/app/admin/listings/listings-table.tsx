@@ -94,7 +94,7 @@ export function ListingsTable({ listings }: ListingsTableProps) {
               <td className="px-4 py-3">
                 <div>
                   <Link
-                    href={`/gym/${listing.slug}`}
+                    href={`/admin/listings/${listing.id}/edit`}
                     className="font-medium text-zinc-900 hover:underline"
                   >
                     {listing.name}

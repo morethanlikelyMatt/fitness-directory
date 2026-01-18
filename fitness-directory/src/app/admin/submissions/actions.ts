@@ -91,6 +91,13 @@ export async function approveSubmission(id: string) {
       return { error: "Failed to create listing" };
     }
 
+    // Link the submission to the new fitness center
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (supabase as any)
+      .from("submissions")
+      .update({ fitness_center_id: newListing.id })
+      .eq("id", id);
+
     // Add attributes if provided
     if (data.attribute_ids && data.attribute_ids.length > 0) {
       const attributeInserts = data.attribute_ids.map((attrId: string) => ({
@@ -142,8 +149,6 @@ export async function approveSubmission(id: string) {
     .from("submissions")
     .update({
       status: "approved",
-      reviewed_at: new Date().toISOString(),
-      reviewed_by: adminId,
     })
     .eq("id", id);
 
@@ -168,8 +173,6 @@ export async function rejectSubmission(id: string, notes?: string) {
     .update({
       status: "rejected",
       admin_notes: notes || null,
-      reviewed_at: new Date().toISOString(),
-      reviewed_by: adminId,
     })
     .eq("id", id);
 

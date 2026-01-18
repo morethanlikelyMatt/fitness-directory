@@ -6,6 +6,12 @@ export const metadata = {
   description: "Review gym submissions and claims",
 };
 
+interface Attribute {
+  id: string;
+  name: string;
+  category: string;
+}
+
 interface PageProps {
   searchParams: Promise<{
     status?: string;
@@ -69,13 +75,34 @@ async function getSubmissions(
   };
 }
 
+async function getAttributes(): Promise<Attribute[]> {
+  const supabase = await createClient();
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await (supabase as any)
+    .from("attributes")
+    .select("id, name, category")
+    .order("category")
+    .order("name");
+
+  if (error) {
+    console.error("Error fetching attributes:", error);
+    return [];
+  }
+
+  return data || [];
+}
+
 export default async function AdminSubmissionsPage({ searchParams }: PageProps) {
   const params = await searchParams;
   const status = params.status || "pending";
   const type = params.type || "all";
   const page = parseInt(params.page || "1", 10);
 
-  const { submissions, total } = await getSubmissions(status, type, page);
+  const [{ submissions, total }, attributes] = await Promise.all([
+    getSubmissions(status, type, page),
+    getAttributes(),
+  ]);
   const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
 
   const pendingCount = submissions.filter((s) => s.status === "pending").length;
@@ -115,22 +142,30 @@ export default async function AdminSubmissionsPage({ searchParams }: PageProps) 
             </a>
           ))}
         </div>
-        <select
-          defaultValue={type}
-          onChange={(e) => {
-            window.location.href = `/admin/submissions?status=${status}&type=${e.target.value}`;
-          }}
-          className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm"
-        >
-          <option value="all">All Types</option>
-          <option value="new_submission">New Submissions</option>
-          <option value="claim">Claims</option>
-        </select>
+        <div className="flex rounded-lg border border-zinc-200 bg-white">
+          {[
+            { value: "all", label: "All Types" },
+            { value: "new_submission", label: "New Submissions" },
+            { value: "claim", label: "Claims" },
+          ].map((t, i, arr) => (
+            <a
+              key={t.value}
+              href={`/admin/submissions?status=${status}&type=${t.value}`}
+              className={`px-4 py-2 text-sm font-medium ${
+                type === t.value
+                  ? "bg-zinc-900 text-white"
+                  : "text-zinc-600 hover:bg-zinc-50"
+              } ${i === 0 ? "rounded-l-lg" : ""} ${i === arr.length - 1 ? "rounded-r-lg" : ""}`}
+            >
+              {t.label}
+            </a>
+          ))}
+        </div>
       </div>
 
       {/* Table */}
       <div className="mt-6">
-        <SubmissionsTable submissions={submissions} />
+        <SubmissionsTable submissions={submissions} attributes={attributes} />
       </div>
 
       {/* Pagination */}

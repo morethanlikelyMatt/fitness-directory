@@ -111,37 +111,47 @@ export default async function AdminListingsPage({ searchParams }: PageProps) {
             className="w-full max-w-xs rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm focus:border-zinc-400 focus:outline-none"
           />
         </form>
-        <div className="flex gap-2">
-          <select
-            defaultValue={status}
-            onChange={(e) => {
-              const url = new URL(window.location.href);
-              url.searchParams.set("status", e.target.value);
-              url.searchParams.delete("page");
-              window.location.href = url.toString();
-            }}
-            className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm"
-          >
-            <option value="all">All Status</option>
-            <option value="pending">Pending</option>
-            <option value="verified">Verified</option>
-            <option value="claimed">Claimed</option>
-            <option value="suspended">Suspended</option>
-          </select>
-          <select
-            defaultValue={tier}
-            onChange={(e) => {
-              const url = new URL(window.location.href);
-              url.searchParams.set("tier", e.target.value);
-              url.searchParams.delete("page");
-              window.location.href = url.toString();
-            }}
-            className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm"
-          >
-            <option value="all">All Tiers</option>
-            <option value="free">Free</option>
-            <option value="premium">Premium</option>
-          </select>
+        <div className="flex gap-4">
+          <div className="flex rounded-lg border border-zinc-200 bg-white">
+            {[
+              { value: "all", label: "All Status" },
+              { value: "pending", label: "Pending" },
+              { value: "verified", label: "Verified" },
+              { value: "claimed", label: "Claimed" },
+              { value: "suspended", label: "Suspended" },
+            ].map((s, i, arr) => (
+              <Link
+                key={s.value}
+                href={`/admin/listings?status=${s.value}&tier=${tier}&search=${search}`}
+                className={`px-3 py-2 text-sm font-medium ${
+                  status === s.value
+                    ? "bg-zinc-900 text-white"
+                    : "text-zinc-600 hover:bg-zinc-50"
+                } ${i === 0 ? "rounded-l-lg" : ""} ${i === arr.length - 1 ? "rounded-r-lg" : ""}`}
+              >
+                {s.label}
+              </Link>
+            ))}
+          </div>
+          <div className="flex rounded-lg border border-zinc-200 bg-white">
+            {[
+              { value: "all", label: "All Tiers" },
+              { value: "free", label: "Free" },
+              { value: "premium", label: "Premium" },
+            ].map((t, i, arr) => (
+              <Link
+                key={t.value}
+                href={`/admin/listings?status=${status}&tier=${t.value}&search=${search}`}
+                className={`px-3 py-2 text-sm font-medium ${
+                  tier === t.value
+                    ? "bg-zinc-900 text-white"
+                    : "text-zinc-600 hover:bg-zinc-50"
+                } ${i === 0 ? "rounded-l-lg" : ""} ${i === arr.length - 1 ? "rounded-r-lg" : ""}`}
+              >
+                {t.label}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
 
