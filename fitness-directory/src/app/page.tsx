@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { WebsiteJsonLd } from "@/components/seo/json-ld";
+import { HomeSearchForm } from "@/components/search/home-search-form";
 
 export default function Home() {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://fitnessdirectory.com";
@@ -78,28 +79,8 @@ export default function Home() {
               </p>
 
               {/* Search Bar */}
-              <div className="mt-10 max-w-xl">
-                <form action="/search" className="relative">
-                  <div className="flex rounded-2xl bg-white shadow-xl shadow-stone-200/50 ring-1 ring-stone-200 overflow-hidden">
-                    <div className="flex-1 flex items-center px-5">
-                      <svg className="h-5 w-5 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                      </svg>
-                      <input
-                        type="text"
-                        name="q"
-                        placeholder="Search by gym name, equipment, or city..."
-                        className="flex-1 border-0 bg-transparent py-4 px-3 text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-0"
-                      />
-                    </div>
-                    <button
-                      type="submit"
-                      className="m-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 px-8 py-3 font-semibold text-white hover:from-orange-600 hover:to-amber-600 transition-all"
-                    >
-                      Search
-                    </button>
-                  </div>
-                </form>
+              <div className="mt-10 max-w-2xl">
+                <HomeSearchForm />
 
                 <div className="mt-4 flex items-center gap-4 text-sm text-stone-500">
                   <span>Popular:</span>

@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { Suspense } from "react";
 import { Header } from "@/components/layout";
 import { Footer } from "@/components/layout";
-import { SearchFilters, SearchFiltersSkeleton } from "@/components/search";
+import { SearchFilters, SearchFiltersSkeleton, LocationAutocomplete } from "@/components/search";
 import { ListingCard, ListingCardSkeleton } from "@/components/listings";
 import { searchFitnessCenters } from "@/lib/typesense";
 import Link from "next/link";
@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 interface SearchPageProps {
   searchParams: Promise<{
     q?: string;
+    location?: string;
     type?: string;
     price?: string;
     attr?: string;
@@ -35,20 +36,37 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         <div className="mx-auto max-w-7xl px-6 py-8">
           {/* Search Header */}
           <div className="mb-8">
-            <form action="/search" className="flex gap-2">
-              <input
-                type="text"
-                name="q"
-                defaultValue={params.q || ""}
-                placeholder="Search gyms, equipment, or location..."
-                className="flex-1 rounded-xl border border-stone-200 bg-white px-4 py-3 text-stone-900 placeholder-stone-400 focus:border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-100"
-              />
-              <button
-                type="submit"
-                className="rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 px-6 py-3 font-semibold text-white hover:from-orange-600 hover:to-amber-600 transition-all"
-              >
-                Search
-              </button>
+            <form action="/search" className="flex flex-col gap-3 sm:flex-row sm:gap-2">
+              <div className="flex-1">
+                <label className="mb-1 block text-xs font-medium text-stone-500 uppercase tracking-wide">
+                  Find
+                </label>
+                <input
+                  type="text"
+                  name="q"
+                  defaultValue={params.q || ""}
+                  placeholder="sauna, crossfit, yoga..."
+                  className="w-full rounded-xl border border-stone-200 bg-white px-4 py-3 text-stone-900 placeholder-stone-400 focus:border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-100"
+                />
+              </div>
+              <div className="sm:w-56">
+                <label className="mb-1 block text-xs font-medium text-stone-500 uppercase tracking-wide">
+                  Near
+                </label>
+                <LocationAutocomplete
+                  name="location"
+                  defaultValue={params.location || ""}
+                  placeholder="City or ZIP"
+                />
+              </div>
+              <div className="sm:self-end">
+                <button
+                  type="submit"
+                  className="w-full sm:w-auto rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 px-6 py-3 font-semibold text-white hover:from-orange-600 hover:to-amber-600 transition-all"
+                >
+                  Search
+                </button>
+              </div>
             </form>
           </div>
 
@@ -86,6 +104,7 @@ async function SearchResults({
 }: {
   params: {
     q?: string;
+    location?: string;
     type?: string;
     price?: string;
     attr?: string;
@@ -97,6 +116,9 @@ async function SearchResults({
   const query = params.q || "";
   const page = parseInt(params.page || "1", 10);
   const sortBy = (params.sort as "relevance" | "distance" | "newest" | "name") || "relevance";
+
+  // Parse location - extract city name from "City, ST" format
+  const locationCity = params.location?.split(",")[0]?.trim();
 
   // Parse filters
   const gymTypes = params.type?.split(",").filter(Boolean);
@@ -117,6 +139,7 @@ async function SearchResults({
       attributes,
       is24Hour,
       sortBy,
+      cities: locationCity ? [locationCity] : undefined,
     });
   } catch (e) {
     console.error("Search error:", e);
@@ -209,6 +232,7 @@ async function SearchResultsFilters({
 }: {
   params: {
     q?: string;
+    location?: string;
     type?: string;
     price?: string;
     attr?: string;
@@ -218,6 +242,9 @@ async function SearchResultsFilters({
   };
 }) {
   const query = params.q || "";
+
+  // Parse location - extract city name from "City, ST" format
+  const locationCity = params.location?.split(",")[0]?.trim();
 
   // Parse filters
   const gymTypes = params.type?.split(",").filter(Boolean);
@@ -248,6 +275,7 @@ async function SearchResultsFilters({
       priceRanges,
       attributes,
       is24Hour,
+      cities: locationCity ? [locationCity] : undefined,
     });
     facets = results.facets;
   } catch (e) {

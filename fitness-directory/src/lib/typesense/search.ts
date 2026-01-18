@@ -57,33 +57,124 @@ const STOPWORDS = new Set([
   "find", "search", "looking", "for", "that", "has", "have", "having"
 ]);
 
+// Geocode a location using Google Maps Geocoding API
+async function geocodeLocation(query: string): Promise<{ lat: number; lng: number } | null> {
+  const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+  if (!apiKey) {
+    console.warn("Google Maps API key not configured");
+    return null;
+  }
+
+  try {
+    const encoded = encodeURIComponent(query + ", USA");
+    const response = await fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${encoded}&key=${apiKey}`,
+      {
+        next: { revalidate: 86400 }, // Cache for 24 hours
+      }
+    );
+
+    if (!response.ok) return null;
+
+    const data = await response.json();
+    if (data.status === "OK" && data.results?.length > 0) {
+      const location = data.results[0].geometry.location;
+      return {
+        lat: location.lat,
+        lng: location.lng,
+      };
+    }
+  } catch (error) {
+    console.error("Geocoding error:", error);
+  }
+  return null;
+}
+
 // Known cities/locations - add more as needed
 const KNOWN_LOCATIONS = new Map<string, string>([
   // Cities (lowercase -> proper case for filter)
   ["austin", "Austin"],
+  ["austin tx", "Austin"],
+  ["austin, tx", "Austin"],
   ["miami", "Miami"],
+  ["miami fl", "Miami"],
+  ["miami, fl", "Miami"],
   ["new york", "New York"],
+  ["new york city", "New York"],
+  ["new york, ny", "New York"],
   ["nyc", "New York"],
   ["manhattan", "New York"],
   ["brooklyn", "Brooklyn"],
+  ["brooklyn, ny", "Brooklyn"],
   ["los angeles", "Los Angeles"],
+  ["los angeles, ca", "Los Angeles"],
   ["la", "Los Angeles"],
   ["chicago", "Chicago"],
+  ["chicago, il", "Chicago"],
   ["houston", "Houston"],
+  ["houston, tx", "Houston"],
   ["phoenix", "Phoenix"],
   ["dallas", "Dallas"],
   ["san antonio", "San Antonio"],
   ["san diego", "San Diego"],
   ["san jose", "San Jose"],
   ["san francisco", "San Francisco"],
+  ["sf", "San Francisco"],
   ["denver", "Denver"],
+  ["denver, co", "Denver"],
   ["seattle", "Seattle"],
+  ["seattle, wa", "Seattle"],
   ["boston", "Boston"],
+  ["boston, ma", "Boston"],
   ["atlanta", "Atlanta"],
+  ["atlanta, ga", "Atlanta"],
   ["portland", "Portland"],
   ["nashville", "Nashville"],
   ["miami beach", "Miami Beach"],
+  ["miami beach, fl", "Miami Beach"],
 ]);
+
+// Normalize a city name from user input to database format
+// Returns { city, isConfident } where isConfident means we found an exact match in our gym database
+function normalizeCity(input: string): {
+  city: string;
+  isConfident: boolean;
+} {
+  const normalized = input.toLowerCase().trim();
+
+  // Check exact match first
+  if (KNOWN_LOCATIONS.has(normalized)) {
+    return {
+      city: KNOWN_LOCATIONS.get(normalized)!,
+      isConfident: true,
+    };
+  }
+
+  // Check if the normalized input starts with any known location key
+  // This handles "austin, tx" matching "austin" but avoids "staten island" matching "la"
+  // Sort by length descending to match longer keys first (e.g., "miami beach" before "miami")
+  const sortedEntries = Array.from(KNOWN_LOCATIONS.entries())
+    .sort((a, b) => b[0].length - a[0].length);
+
+  for (const [key, value] of sortedEntries) {
+    // Only match if key appears at start or as a complete word
+    if (normalized.startsWith(key + ",") ||
+        normalized.startsWith(key + " ") ||
+        normalized === key) {
+      return {
+        city: value,
+        isConfident: true,
+      };
+    }
+  }
+
+  // Clean up the input
+  const cleaned = input.split(",")[0].trim().split(" ")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+
+  return { city: cleaned, isConfident: false };
+}
 
 interface ParsedQuery {
   searchTerms: string;
@@ -143,10 +234,42 @@ export async function searchFitnessCenters(
     sortBy = "relevance",
   } = params;
 
-  // Parse the query to extract location filters and search terms
-  const { searchTerms: query, locationFilters: extractedCities } = rawQuery
-    ? parseQuery(rawQuery)
-    : { searchTerms: "", locationFilters: [] };
+  // If explicit cities are provided (from location picker), normalize and use them
+  // Otherwise, parse the query to extract location filters
+  let query: string;
+  let cityFilters: string[] = [];
+  let proximityLocation: { lat: number; lng: number } | undefined;
+
+  if (cities?.length) {
+    // Explicit city filter provided - normalize city names
+    query = rawQuery ? cleanQuery(rawQuery) : "";
+    for (const c of cities) {
+      const normalized = normalizeCity(c);
+      if (normalized.isConfident) {
+        cityFilters.push(normalized.city);
+      } else {
+        // Not in our database - geocode the location for proximity search
+        const coords = await geocodeLocation(c);
+        if (coords) {
+          proximityLocation = coords;
+        }
+      }
+    }
+  } else {
+    // No explicit city - extract locations from query
+    const parsed = rawQuery
+      ? parseQuery(rawQuery)
+      : { searchTerms: "", locationFilters: [] };
+    query = parsed.searchTerms;
+    cityFilters = parsed.locationFilters;
+  }
+
+  // Build effective query
+  let effectiveQuery = query;
+  if (!query && cityFilters.length > 0) {
+    // If no search term but have city filters, use city as query for text matching
+    effectiveQuery = cityFilters.join(" ");
+  }
 
   // Build filter string
   const filters: string[] = [];
@@ -166,10 +289,9 @@ export async function searchFitnessCenters(
     filters.push(`attributes:[${attributes.join(",")}]`);
   }
 
-  // Combine explicitly passed cities with extracted cities from query
-  const allCities = [...(cities || []), ...extractedCities];
-  if (allCities.length) {
-    filters.push(`city:[${allCities.join(",")}]`);
+  // Use city filters (either explicit or extracted from query)
+  if (cityFilters.length) {
+    filters.push(`city:[${cityFilters.join(",")}]`);
   }
 
   if (countries?.length) {
@@ -184,7 +306,16 @@ export async function searchFitnessCenters(
     filters.push(`subscription_tier:${subscriptionTier}`);
   }
 
-  // Geo filter
+  // Proximity search - when user searches for a location we don't have gyms in
+  // find gyms within 50 miles of that location
+  if (proximityLocation && !cityFilters.length) {
+    const radiusKm = 80; // ~50 miles
+    filters.push(
+      `location:(${proximityLocation.lat}, ${proximityLocation.lng}, ${radiusKm} km)`
+    );
+  }
+
+  // Geo filter (explicit)
   if (location) {
     const radiusKm = location.radiusMiles * 1.60934;
     filters.push(
@@ -213,10 +344,14 @@ export async function searchFitnessCenters(
       sortByStr = "_text_match:desc,boost_score:desc";
   }
 
+  // Use effective query - if user provided location but no search term,
+  // use the city name as the query to get results from that area
+  const finalQuery = effectiveQuery || "*";
+
   const searchParameters = {
-    q: query || "*",
-    query_by: "name,description,address,city,attributes",
-    query_by_weights: "5,3,2,2,4", // Prioritize name and attributes
+    q: finalQuery,
+    query_by: "name,description,address,city,attributes,gym_type",
+    query_by_weights: "5,3,2,4,4,3", // Prioritize name and city for location searches
     filter_by: filters.join(" && "),
     sort_by: sortByStr,
     page,
@@ -224,8 +359,6 @@ export async function searchFitnessCenters(
     facet_by: "gym_type,price_range,attributes,city,country",
     max_facet_values: 50,
     // Use exhaustive search and allow dropping all tokens for flexible matching
-    // This helps queries like "gym with sauna" find results that match "sauna"
-    // even if "gym" isn't in the searchable fields
     drop_tokens_threshold: 0,
     num_typos: 2,
     exhaustive_search: true,
