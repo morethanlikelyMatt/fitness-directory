@@ -50,6 +50,8 @@ export function SubmitGymForm({ attributes }: SubmitGymFormProps) {
     description: "",
     priceRange: undefined,
     isOwner: false,
+    yelpUrl: "",
+    googleMapsUrl: "",
   });
 
   function handleInputChange(
@@ -167,6 +169,8 @@ export function SubmitGymForm({ attributes }: SubmitGymFormProps) {
                   description: "",
                   priceRange: undefined,
                   isOwner: false,
+                  yelpUrl: "",
+                  googleMapsUrl: "",
                 });
                 setSelectedAttributes([]);
               }}
@@ -444,6 +448,59 @@ export function SubmitGymForm({ attributes }: SubmitGymFormProps) {
                 className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
                 placeholder="https://www.yourgym.com"
               />
+            </div>
+          </div>
+        </section>
+
+        {/* External Profiles */}
+        <section>
+          <h2 className="mb-4 text-lg font-semibold text-zinc-900">
+            External Profiles
+          </h2>
+          <p className="mb-4 text-sm text-zinc-600">
+            Add links to your Yelp and Google Maps pages to display ratings on your profile
+          </p>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="sm:col-span-2">
+              <label
+                htmlFor="yelpUrl"
+                className="block text-sm font-medium text-zinc-700"
+              >
+                Yelp Business URL
+              </label>
+              <input
+                type="url"
+                id="yelpUrl"
+                name="yelpUrl"
+                value={formData.yelpUrl}
+                onChange={handleInputChange}
+                className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
+                placeholder="https://www.yelp.com/biz/your-gym-name"
+              />
+              <p className="mt-1 text-xs text-zinc-500">
+                Find this on your Yelp business page URL
+              </p>
+            </div>
+
+            <div className="sm:col-span-2">
+              <label
+                htmlFor="googleMapsUrl"
+                className="block text-sm font-medium text-zinc-700"
+              >
+                Google Maps URL
+              </label>
+              <input
+                type="url"
+                id="googleMapsUrl"
+                name="googleMapsUrl"
+                value={formData.googleMapsUrl}
+                onChange={handleInputChange}
+                className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
+                placeholder="https://maps.google.com/?cid=..."
+              />
+              <p className="mt-1 text-xs text-zinc-500">
+                Search for your business on Google Maps, click Share, and copy the link
+              </p>
             </div>
           </div>
         </section>

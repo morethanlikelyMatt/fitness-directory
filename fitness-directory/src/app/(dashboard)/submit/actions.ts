@@ -27,6 +27,8 @@ export interface SubmissionData {
   priceRange?: Enums<"price_range">;
   isOwner: boolean;
   attributeIds?: string[];
+  yelpUrl?: string;
+  googleMapsUrl?: string;
 }
 
 // Geocode address using Google Maps Geocoding API
@@ -130,6 +132,8 @@ export async function submitNewGym(
     price_range: data.priceRange || null,
     slug,
     attribute_ids: data.attributeIds || [],
+    yelp_url: data.yelpUrl || null,
+    google_maps_url: data.googleMapsUrl || null,
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

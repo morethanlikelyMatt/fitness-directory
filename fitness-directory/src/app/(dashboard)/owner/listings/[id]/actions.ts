@@ -24,6 +24,8 @@ export interface ListingUpdateData {
   priceRange?: Enums<"price_range">;
   hours?: Record<string, { open: string; close: string }>;
   attributeIds: string[];
+  yelpUrl?: string;
+  googleMapsUrl?: string;
 }
 
 export async function getListing(id: string) {
@@ -162,6 +164,39 @@ export async function updateListing(
     if (attrError) {
       console.error("Error updating attributes:", attrError);
       // Don't fail the whole operation for attribute errors
+    }
+  }
+
+  // Update external URLs in fitness_center_details
+  if (data.yelpUrl !== undefined || data.googleMapsUrl !== undefined) {
+    // Check if details record exists
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: existingDetails } = await (supabase as any)
+      .from("fitness_center_details")
+      .select("fitness_center_id")
+      .eq("fitness_center_id", id)
+      .single();
+
+    if (existingDetails) {
+      // Update existing record
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await (supabase as any)
+        .from("fitness_center_details")
+        .update({
+          yelp_url: data.yelpUrl || null,
+          google_maps_url: data.googleMapsUrl || null,
+        })
+        .eq("fitness_center_id", id);
+    } else {
+      // Insert new record
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await (supabase as any)
+        .from("fitness_center_details")
+        .insert({
+          fitness_center_id: id,
+          yelp_url: data.yelpUrl || null,
+          google_maps_url: data.googleMapsUrl || null,
+        });
     }
   }
 

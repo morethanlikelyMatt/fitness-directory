@@ -41,7 +41,10 @@ const DAYS = [
 ];
 
 interface ListingWithRelations extends FitnessCenter {
-  fitness_center_details: unknown;
+  fitness_center_details: {
+    yelp_url?: string | null;
+    google_maps_url?: string | null;
+  } | null;
   fitness_center_attributes: { attribute_id: string; value: string | null; quantity: number | null }[];
 }
 
@@ -71,6 +74,9 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
       ? (listing.hours as Record<string, { open: string; close: string }>)
       : {};
 
+  // Extract initial external URLs from details
+  const details = listing.fitness_center_details;
+
   // Form state
   const [formData, setFormData] = useState<ListingUpdateData>({
     name: listing.name,
@@ -87,6 +93,8 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
     priceRange: listing.price_range || undefined,
     hours: initialHours,
     attributeIds: initialAttrIds,
+    yelpUrl: details?.yelp_url || "",
+    googleMapsUrl: details?.google_maps_url || "",
   });
 
   function handleInputChange(
@@ -459,6 +467,59 @@ export function EditListingForm({ listing, attributes }: EditListingFormProps) {
                   onChange={handleInputChange}
                   className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
                 />
+              </div>
+            </div>
+          </section>
+
+          {/* External Profiles */}
+          <section>
+            <h2 className="mb-4 text-lg font-semibold text-zinc-900">
+              External Profiles
+            </h2>
+            <p className="mb-4 text-sm text-zinc-600">
+              Add links to your Yelp and Google Maps pages to display ratings on your profile
+            </p>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="sm:col-span-2">
+                <label
+                  htmlFor="yelpUrl"
+                  className="block text-sm font-medium text-zinc-700"
+                >
+                  Yelp Business URL
+                </label>
+                <input
+                  type="url"
+                  id="yelpUrl"
+                  name="yelpUrl"
+                  value={formData.yelpUrl}
+                  onChange={handleInputChange}
+                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
+                  placeholder="https://www.yelp.com/biz/your-gym-name"
+                />
+                <p className="mt-1 text-xs text-zinc-500">
+                  Find this on your Yelp business page URL
+                </p>
+              </div>
+
+              <div className="sm:col-span-2">
+                <label
+                  htmlFor="googleMapsUrl"
+                  className="block text-sm font-medium text-zinc-700"
+                >
+                  Google Maps URL
+                </label>
+                <input
+                  type="url"
+                  id="googleMapsUrl"
+                  name="googleMapsUrl"
+                  value={formData.googleMapsUrl}
+                  onChange={handleInputChange}
+                  className="mt-1 w-full rounded-lg border border-zinc-300 px-4 py-2 text-zinc-900 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
+                  placeholder="https://maps.google.com/?cid=..."
+                />
+                <p className="mt-1 text-xs text-zinc-500">
+                  Search for your business on Google Maps, click Share, and copy the link
+                </p>
               </div>
             </div>
           </section>

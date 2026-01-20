@@ -4,6 +4,7 @@ import Link from "next/link";
 import { createServerClient } from "@/lib/supabase";
 import { Header, Footer } from "@/components/layout";
 import { LocalBusinessJsonLd, BreadcrumbJsonLd } from "@/components/seo/json-ld";
+import { ExternalRatings } from "@/components/ratings/external-ratings";
 
 interface GymPageProps {
   params: Promise<{
@@ -152,6 +153,8 @@ export default async function GymPage({ params }: GymPageProps) {
     virtual_tour_url?: string;
     contract_terms?: string;
     guest_policy?: string;
+    yelp_url?: string;
+    google_maps_url?: string;
   } | null;
 
   // Group attributes by category
@@ -457,6 +460,12 @@ export default async function GymPage({ params }: GymPageProps) {
                   )}
                 </div>
               </div>
+
+              {/* External Ratings */}
+              <ExternalRatings
+                yelpUrl={details?.yelp_url}
+                googleMapsUrl={details?.google_maps_url}
+              />
 
               {/* Map Placeholder */}
               <div className="aspect-video rounded-lg border border-zinc-200 bg-zinc-100">

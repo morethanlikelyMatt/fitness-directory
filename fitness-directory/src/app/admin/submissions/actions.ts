@@ -85,6 +85,8 @@ export async function approveSubmission(id: string) {
       description?: string;
       price_range?: string;
       attribute_ids?: string[];
+      yelp_url?: string;
+      google_maps_url?: string;
     };
 
     // Generate a unique slug in case the original one is taken
@@ -144,6 +146,18 @@ export async function approveSubmission(id: string) {
       await (supabase as any)
         .from("fitness_center_attributes")
         .insert(attributeInserts);
+    }
+
+    // Create fitness_center_details record with external URLs if provided
+    if (data.yelp_url || data.google_maps_url) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await (supabase as any)
+        .from("fitness_center_details")
+        .insert({
+          fitness_center_id: newListing.id,
+          yelp_url: data.yelp_url || null,
+          google_maps_url: data.google_maps_url || null,
+        });
     }
 
     // Update the user role if they claimed ownership (but don't downgrade admins)

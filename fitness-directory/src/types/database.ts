@@ -133,6 +133,8 @@ export type Database = {
           guest_policy: string | null;
           childcare_details: Json | null;
           recovery_services: Json | null;
+          yelp_url: string | null;
+          google_maps_url: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -147,6 +149,8 @@ export type Database = {
           guest_policy?: string | null;
           childcare_details?: Json | null;
           recovery_services?: Json | null;
+          yelp_url?: string | null;
+          google_maps_url?: string | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -161,6 +165,8 @@ export type Database = {
           guest_policy?: string | null;
           childcare_details?: Json | null;
           recovery_services?: Json | null;
+          yelp_url?: string | null;
+          google_maps_url?: string | null;
           created_at?: string;
           updated_at?: string;
         };
