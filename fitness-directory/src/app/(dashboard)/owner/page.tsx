@@ -45,18 +45,26 @@ export default async function OwnerListingsPage() {
           <div className="mb-8 flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-zinc-900">
-                My Listings
+                Owner Dashboard
               </h1>
               <p className="mt-1 text-zinc-600">
-                Manage your fitness center listings
+                Manage your fitness center listings and business profile
               </p>
             </div>
-            <Link
-              href="/submit"
-              className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800:bg-zinc-100"
-            >
-              Add New Gym
-            </Link>
+            <div className="flex items-center gap-3">
+              <Link
+                href="/owner/business-profile"
+                className="rounded-lg border border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
+              >
+                Business Profile
+              </Link>
+              <Link
+                href="/submit"
+                className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800"
+              >
+                Add New Gym
+              </Link>
+            </div>
           </div>
 
           {/* Listings */}

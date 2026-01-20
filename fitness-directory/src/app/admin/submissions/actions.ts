@@ -151,7 +151,7 @@ export async function approveSubmission(id: string) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { data: submitterData } = await (supabase as any)
         .from("users")
-        .select("role")
+        .select("role, email, name")
         .eq("id", submission.user_id)
         .single();
 
@@ -161,6 +161,39 @@ export async function approveSubmission(id: string) {
           .from("users")
           .update({ role: "owner" })
           .eq("id", submission.user_id);
+      }
+
+      // Get or create business profile for the owner
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let { data: businessProfile } = await (supabase as any)
+        .from("business_profiles")
+        .select("id")
+        .eq("user_id", submission.user_id)
+        .single();
+
+      if (!businessProfile) {
+        // Create a new business profile with basic info
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const { data: newProfile } = await (supabase as any)
+          .from("business_profiles")
+          .insert({
+            user_id: submission.user_id,
+            business_name: data.name, // Use gym name as default business name
+            business_email: submitterData?.email || null,
+          })
+          .select("id")
+          .single();
+
+        businessProfile = newProfile;
+      }
+
+      // Link the fitness center to the business profile
+      if (businessProfile) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        await (supabase as any)
+          .from("fitness_centers")
+          .update({ business_profile_id: businessProfile.id })
+          .eq("id", newListing.id);
       }
     }
   } else if (submission.type === "claim") {
@@ -183,7 +216,7 @@ export async function approveSubmission(id: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: claimantData } = await (supabase as any)
       .from("users")
-      .select("role")
+      .select("role, email, name")
       .eq("id", submission.user_id)
       .single();
 
@@ -193,6 +226,47 @@ export async function approveSubmission(id: string) {
         .from("users")
         .update({ role: "owner" })
         .eq("id", submission.user_id);
+    }
+
+    // Get or create business profile for the owner
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let { data: businessProfile } = await (supabase as any)
+      .from("business_profiles")
+      .select("id")
+      .eq("user_id", submission.user_id)
+      .single();
+
+    // Get the fitness center name for the default business name
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: fitnessCenter } = await (supabase as any)
+      .from("fitness_centers")
+      .select("name")
+      .eq("id", submission.fitness_center_id)
+      .single();
+
+    if (!businessProfile) {
+      // Create a new business profile with basic info
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data: newProfile } = await (supabase as any)
+        .from("business_profiles")
+        .insert({
+          user_id: submission.user_id,
+          business_name: fitnessCenter?.name || "My Business",
+          business_email: claimantData?.email || null,
+        })
+        .select("id")
+        .single();
+
+      businessProfile = newProfile;
+    }
+
+    // Link the fitness center to the business profile
+    if (businessProfile) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await (supabase as any)
+        .from("fitness_centers")
+        .update({ business_profile_id: businessProfile.id })
+        .eq("id", submission.fitness_center_id);
     }
   }
 

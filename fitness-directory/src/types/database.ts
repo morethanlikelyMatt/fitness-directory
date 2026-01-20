@@ -65,6 +65,7 @@ export type Database = {
           gym_type: Database["public"]["Enums"]["gym_type"];
           status: Database["public"]["Enums"]["gym_status"];
           owner_id: string | null;
+          business_profile_id: string | null;
           subscription_tier: Database["public"]["Enums"]["subscription_tier"];
           created_at: string;
           updated_at: string;
@@ -89,6 +90,7 @@ export type Database = {
           gym_type: Database["public"]["Enums"]["gym_type"];
           status?: Database["public"]["Enums"]["gym_status"];
           owner_id?: string | null;
+          business_profile_id?: string | null;
           subscription_tier?: Database["public"]["Enums"]["subscription_tier"];
           created_at?: string;
           updated_at?: string;
@@ -113,6 +115,7 @@ export type Database = {
           gym_type?: Database["public"]["Enums"]["gym_type"];
           status?: Database["public"]["Enums"]["gym_status"];
           owner_id?: string | null;
+          business_profile_id?: string | null;
           subscription_tier?: Database["public"]["Enums"]["subscription_tier"];
           created_at?: string;
           updated_at?: string;
@@ -316,6 +319,59 @@ export type Database = {
           reviewed_by?: string | null;
         };
       };
+      business_profiles: {
+        Row: {
+          id: string;
+          user_id: string;
+          business_name: string;
+          business_email: string | null;
+          business_phone: string | null;
+          business_address: string | null;
+          business_city: string | null;
+          business_state: string | null;
+          business_country: string | null;
+          business_postal_code: string | null;
+          tax_id: string | null;
+          website: string | null;
+          logo_url: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          business_name: string;
+          business_email?: string | null;
+          business_phone?: string | null;
+          business_address?: string | null;
+          business_city?: string | null;
+          business_state?: string | null;
+          business_country?: string | null;
+          business_postal_code?: string | null;
+          tax_id?: string | null;
+          website?: string | null;
+          logo_url?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          business_name?: string;
+          business_email?: string | null;
+          business_phone?: string | null;
+          business_address?: string | null;
+          business_city?: string | null;
+          business_state?: string | null;
+          business_country?: string | null;
+          business_postal_code?: string | null;
+          tax_id?: string | null;
+          website?: string | null;
+          logo_url?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
     };
     Views: {
       [_ in never]: never;
@@ -375,3 +431,4 @@ export type FitnessCenterAttribute = Tables<"fitness_center_attributes">;
 export type PremiumConfig = Tables<"premium_config">;
 export type Subscription = Tables<"subscriptions">;
 export type Submission = Tables<"submissions">;
+export type BusinessProfile = Tables<"business_profiles">;
