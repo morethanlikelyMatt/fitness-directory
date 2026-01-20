@@ -31,12 +31,55 @@ export default function Home() {
             >
               Browse Gyms
             </Link>
-            <Link
-              href="/submit"
-              className="text-sm font-medium text-stone-600 hover:text-stone-900 transition-colors"
-            >
-              List Your Gym
-            </Link>
+            {/* For Business Dropdown */}
+            <div className="relative group">
+              <button className="flex items-center gap-1 text-sm font-medium text-stone-600 hover:text-stone-900 transition-colors">
+                For Business
+                <svg className="h-4 w-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div className="absolute right-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+                <div className="w-56 rounded-xl border border-stone-200 bg-white p-2 shadow-lg">
+                  <Link
+                    href="/submit"
+                    className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-stone-700 hover:bg-stone-50 transition-colors"
+                  >
+                    <svg className="h-5 w-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                    </svg>
+                    <div>
+                      <div className="font-medium">Add Your Gym</div>
+                      <div className="text-xs text-stone-500">List a new fitness center</div>
+                    </div>
+                  </Link>
+                  <Link
+                    href="/search"
+                    className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-stone-700 hover:bg-stone-50 transition-colors"
+                  >
+                    <svg className="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div>
+                      <div className="font-medium">Claim Your Listing</div>
+                      <div className="text-xs text-stone-500">Take ownership of your gym</div>
+                    </div>
+                  </Link>
+                  <Link
+                    href="/owner"
+                    className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-stone-700 hover:bg-stone-50 transition-colors"
+                  >
+                    <svg className="h-5 w-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    <div>
+                      <div className="font-medium">Owner Dashboard</div>
+                      <div className="text-xs text-stone-500">Manage your listings</div>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            </div>
             <Link
               href="/login"
               className="text-sm font-medium text-stone-600 hover:text-stone-900 transition-colors"
@@ -209,34 +252,90 @@ export default function Home() {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-20">
+        {/* For Business Section */}
+        <section className="py-20 bg-stone-50">
           <div className="mx-auto max-w-7xl px-6">
-            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-orange-500 to-amber-500 px-8 py-16 text-center shadow-xl">
-              <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
-              <div className="relative">
-                <h2 className="text-3xl font-bold text-white">
-                  Own a Fitness Center?
-                </h2>
-                <p className="mt-4 text-lg text-orange-100 max-w-2xl mx-auto">
-                  Join thousands of gyms already on Fitness Directory. Reach new members,
-                  showcase your equipment, and grow your business.
-                </p>
-                <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-                  <Link
-                    href="/submit"
-                    className="rounded-full bg-white px-8 py-3 font-semibold text-orange-600 shadow-sm hover:bg-orange-50 transition-colors"
-                  >
-                    List Your Gym — It&apos;s Free
-                  </Link>
-                  <Link
-                    href="/pricing"
-                    className="rounded-full border-2 border-white/30 px-8 py-3 font-semibold text-white hover:bg-white/10 transition-colors"
-                  >
-                    View Premium Plans
-                  </Link>
+            <div className="text-center">
+              <h2 className="text-3xl font-bold text-stone-900">
+                For Gym Owners & Managers
+              </h2>
+              <p className="mt-3 text-lg text-stone-600">
+                Grow your business with Fitness Directory
+              </p>
+            </div>
+
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {/* Submit a Gym */}
+              <Link
+                href="/submit"
+                className="group rounded-2xl border border-stone-200 bg-white p-8 transition-all hover:border-orange-300 hover:shadow-lg"
+              >
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-orange-100 text-orange-600 group-hover:bg-orange-500 group-hover:text-white transition-colors">
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  </svg>
                 </div>
-              </div>
+                <h3 className="mt-5 text-lg font-semibold text-stone-900">
+                  Add Your Gym
+                </h3>
+                <p className="mt-2 text-stone-600">
+                  List your fitness center for free and reach thousands of potential members searching for gyms.
+                </p>
+                <span className="mt-4 inline-flex items-center text-sm font-medium text-orange-600 group-hover:text-orange-700">
+                  Get started
+                  <svg className="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </Link>
+
+              {/* Claim Your Listing */}
+              <Link
+                href="/search"
+                className="group rounded-2xl border border-stone-200 bg-white p-8 transition-all hover:border-orange-300 hover:shadow-lg"
+              >
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-blue-600 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 className="mt-5 text-lg font-semibold text-stone-900">
+                  Claim Your Listing
+                </h3>
+                <p className="mt-2 text-stone-600">
+                  Already listed? Claim ownership to update your information and respond to reviews.
+                </p>
+                <span className="mt-4 inline-flex items-center text-sm font-medium text-orange-600 group-hover:text-orange-700">
+                  Find your gym
+                  <svg className="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </Link>
+
+              {/* Owner Dashboard */}
+              <Link
+                href="/owner"
+                className="group rounded-2xl border border-stone-200 bg-white p-8 transition-all hover:border-orange-300 hover:shadow-lg"
+              >
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                </div>
+                <h3 className="mt-5 text-lg font-semibold text-stone-900">
+                  Owner Dashboard
+                </h3>
+                <p className="mt-2 text-stone-600">
+                  Manage your listings, view analytics, and keep your gym information up to date.
+                </p>
+                <span className="mt-4 inline-flex items-center text-sm font-medium text-orange-600 group-hover:text-orange-700">
+                  Go to dashboard
+                  <svg className="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </Link>
             </div>
           </div>
         </section>
