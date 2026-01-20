@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getUser } from "@/lib/supabase/auth";
+import { createClient } from "@/lib/supabase/server";
 import { UserMenu } from "./user-menu";
 
 interface HeaderProps {
@@ -8,6 +9,18 @@ interface HeaderProps {
 
 export async function Header({ showSearch = true }: HeaderProps) {
   const user = await getUser();
+
+  // Get user role if logged in
+  let isBusinessUser = false;
+  if (user) {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from("users")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+    isBusinessUser = data?.role === "owner" || data?.role === "admin";
+  }
 
   return (
     <header className="sticky top-0 z-40 border-b border-stone-200 bg-white/80 backdrop-blur-sm">
@@ -44,7 +57,7 @@ export async function Header({ showSearch = true }: HeaderProps) {
           </Link>
 
           {user ? (
-            <UserMenu user={user} />
+            <UserMenu user={user} isBusinessUser={isBusinessUser} />
           ) : (
             <>
               <Link

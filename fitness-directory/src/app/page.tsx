@@ -1,9 +1,25 @@
 import Link from "next/link";
 import { WebsiteJsonLd } from "@/components/seo/json-ld";
 import { HomeSearchForm } from "@/components/search/home-search-form";
+import { getUser } from "@/lib/supabase/auth";
+import { UserMenu } from "@/components/layout/user-menu";
+import { createClient } from "@/lib/supabase/server";
 
-export default function Home() {
+export default async function Home() {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://fitnessdirectory.com";
+  const user = await getUser();
+
+  // Get user role if logged in
+  let isBusinessUser = false;
+  if (user) {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from("users")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+    isBusinessUser = data?.role === "owner" || data?.role === "admin";
+  }
 
   return (
     <div className="min-h-screen bg-[#FFFBF7]">
@@ -41,82 +57,163 @@ export default function Home() {
               </button>
               <div className="absolute right-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
                 <div className="w-56 rounded-xl border border-stone-200 bg-white p-2 shadow-lg">
-                  <Link
-                    href="/submit"
-                    className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-stone-700 hover:bg-stone-50 transition-colors"
-                  >
-                    <svg className="h-5 w-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                    </svg>
-                    <div>
-                      <div className="font-medium">Add Your Gym</div>
-                      <div className="text-xs text-stone-500">List a new fitness center</div>
-                    </div>
-                  </Link>
-                  <Link
-                    href="/search"
-                    className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-stone-700 hover:bg-stone-50 transition-colors"
-                  >
-                    <svg className="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <div>
-                      <div className="font-medium">Claim Your Listing</div>
-                      <div className="text-xs text-stone-500">Take ownership of your gym</div>
-                    </div>
-                  </Link>
-                  <Link
-                    href="/owner"
-                    className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-stone-700 hover:bg-stone-50 transition-colors"
-                  >
-                    <svg className="h-5 w-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                    <div>
-                      <div className="font-medium">Owner Dashboard</div>
-                      <div className="text-xs text-stone-500">Manage your listings</div>
-                    </div>
-                  </Link>
-                  <div className="my-1 border-t border-stone-100" />
-                  <Link
-                    href="/signup/business"
-                    className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-stone-700 hover:bg-purple-50 transition-colors"
-                  >
-                    <svg className="h-5 w-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                    </svg>
-                    <div>
-                      <div className="font-medium">Create Business Account</div>
-                      <div className="text-xs text-stone-500">Register as a gym owner</div>
-                    </div>
-                  </Link>
-                  <Link
-                    href="/login?next=/owner"
-                    className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-stone-700 hover:bg-purple-50 transition-colors"
-                  >
-                    <svg className="h-5 w-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                    </svg>
-                    <div>
-                      <div className="font-medium">Business Sign In</div>
-                      <div className="text-xs text-stone-500">Access your business account</div>
-                    </div>
-                  </Link>
+                  {isBusinessUser ? (
+                    <>
+                      {/* Business user menu */}
+                      <Link
+                        href="/owner"
+                        className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-stone-700 hover:bg-stone-50 transition-colors"
+                      >
+                        <svg className="h-5 w-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        <div>
+                          <div className="font-medium">Owner Dashboard</div>
+                          <div className="text-xs text-stone-500">Manage your listings</div>
+                        </div>
+                      </Link>
+                      <Link
+                        href="/submit"
+                        className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-stone-700 hover:bg-stone-50 transition-colors"
+                      >
+                        <svg className="h-5 w-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                        </svg>
+                        <div>
+                          <div className="font-medium">Add Another Gym</div>
+                          <div className="text-xs text-stone-500">List a new fitness center</div>
+                        </div>
+                      </Link>
+                      <Link
+                        href="/search"
+                        className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-stone-700 hover:bg-stone-50 transition-colors"
+                      >
+                        <svg className="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <div>
+                          <div className="font-medium">Claim a Listing</div>
+                          <div className="text-xs text-stone-500">Take ownership of a gym</div>
+                        </div>
+                      </Link>
+                      <div className="my-1 border-t border-stone-100" />
+                      <Link
+                        href="/owner/business-profile"
+                        className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-stone-700 hover:bg-stone-50 transition-colors"
+                      >
+                        <svg className="h-5 w-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                        <div>
+                          <div className="font-medium">Business Profile</div>
+                          <div className="text-xs text-stone-500">Edit your business info</div>
+                        </div>
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      {/* Non-business user or logged out menu */}
+                      <Link
+                        href="/submit"
+                        className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-stone-700 hover:bg-stone-50 transition-colors"
+                      >
+                        <svg className="h-5 w-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                        </svg>
+                        <div>
+                          <div className="font-medium">Add Your Gym</div>
+                          <div className="text-xs text-stone-500">List a new fitness center</div>
+                        </div>
+                      </Link>
+                      <Link
+                        href="/search"
+                        className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-stone-700 hover:bg-stone-50 transition-colors"
+                      >
+                        <svg className="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <div>
+                          <div className="font-medium">Claim Your Listing</div>
+                          <div className="text-xs text-stone-500">Take ownership of your gym</div>
+                        </div>
+                      </Link>
+                      <Link
+                        href="/owner"
+                        className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-stone-700 hover:bg-stone-50 transition-colors"
+                      >
+                        <svg className="h-5 w-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        <div>
+                          <div className="font-medium">Owner Dashboard</div>
+                          <div className="text-xs text-stone-500">Manage your listings</div>
+                        </div>
+                      </Link>
+                      <div className="my-1 border-t border-stone-100" />
+                      {user ? (
+                        <Link
+                          href="/signup/business"
+                          className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-stone-700 hover:bg-purple-50 transition-colors"
+                        >
+                          <svg className="h-5 w-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                          </svg>
+                          <div>
+                            <div className="font-medium">Upgrade to Business</div>
+                            <div className="text-xs text-stone-500">Become a gym owner</div>
+                          </div>
+                        </Link>
+                      ) : (
+                        <>
+                          <Link
+                            href="/signup/business"
+                            className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-stone-700 hover:bg-purple-50 transition-colors"
+                          >
+                            <svg className="h-5 w-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                            <div>
+                              <div className="font-medium">Create Business Account</div>
+                              <div className="text-xs text-stone-500">Register as a gym owner</div>
+                            </div>
+                          </Link>
+                          <Link
+                            href="/login?next=/owner"
+                            className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-stone-700 hover:bg-purple-50 transition-colors"
+                          >
+                            <svg className="h-5 w-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                            </svg>
+                            <div>
+                              <div className="font-medium">Business Sign In</div>
+                              <div className="text-xs text-stone-500">Access your business account</div>
+                            </div>
+                          </Link>
+                        </>
+                      )}
+                    </>
+                  )}
                 </div>
               </div>
             </div>
-            <Link
-              href="/login"
-              className="text-sm font-medium text-stone-600 hover:text-stone-900 transition-colors"
-            >
-              Sign in
-            </Link>
-            <Link
-              href="/signup"
-              className="rounded-full bg-gradient-to-r from-orange-500 to-amber-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:from-orange-600 hover:to-amber-600 transition-all"
-            >
-              Get Started
-            </Link>
+            {user ? (
+              <UserMenu user={user} isBusinessUser={isBusinessUser} />
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="text-sm font-medium text-stone-600 hover:text-stone-900 transition-colors"
+                >
+                  Sign in
+                </Link>
+                <Link
+                  href="/signup"
+                  className="rounded-full bg-gradient-to-r from-orange-500 to-amber-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:from-orange-600 hover:to-amber-600 transition-all"
+                >
+                  Get Started
+                </Link>
+              </>
+            )}
           </div>
         </nav>
       </header>

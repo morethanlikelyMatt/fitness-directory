@@ -8,9 +8,10 @@ import { logout } from "@/app/(auth)/actions/auth";
 
 interface UserMenuProps {
   user: User;
+  isBusinessUser?: boolean;
 }
 
-export function UserMenu({ user }: UserMenuProps) {
+export function UserMenu({ user, isBusinessUser = false }: UserMenuProps) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -85,24 +86,36 @@ export function UserMenu({ user }: UserMenuProps) {
             <Link
               href="/dashboard"
               onClick={() => setIsOpen(false)}
-              className="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-50:bg-zinc-800"
+              className="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-50"
             >
               Dashboard
             </Link>
-            <Link
-              href="/owner"
-              onClick={() => setIsOpen(false)}
-              className="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-50:bg-zinc-800"
-            >
-              My Listings
-            </Link>
-            <Link
-              href="/submit"
-              onClick={() => setIsOpen(false)}
-              className="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-50:bg-zinc-800"
-            >
-              Add a Gym
-            </Link>
+            {isBusinessUser ? (
+              <>
+                <Link
+                  href="/owner"
+                  onClick={() => setIsOpen(false)}
+                  className="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-50"
+                >
+                  My Listings
+                </Link>
+                <Link
+                  href="/submit"
+                  onClick={() => setIsOpen(false)}
+                  className="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-50"
+                >
+                  Add a Gym
+                </Link>
+              </>
+            ) : (
+              <Link
+                href="/signup/business"
+                onClick={() => setIsOpen(false)}
+                className="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-50"
+              >
+                Become a Business Owner
+              </Link>
+            )}
           </div>
 
           <div className="border-t border-zinc-100 py-1">
