@@ -252,33 +252,24 @@ export type Database = {
           user_id: string;
           fitness_center_id: string;
           stripe_subscription_id: string;
-          stripe_customer_id: string;
           status: Database["public"]["Enums"]["subscription_status"];
           current_period_end: string;
-          created_at: string;
-          updated_at: string;
         };
         Insert: {
           id?: string;
           user_id: string;
           fitness_center_id: string;
           stripe_subscription_id: string;
-          stripe_customer_id: string;
           status?: Database["public"]["Enums"]["subscription_status"];
           current_period_end: string;
-          created_at?: string;
-          updated_at?: string;
         };
         Update: {
           id?: string;
           user_id?: string;
           fitness_center_id?: string;
           stripe_subscription_id?: string;
-          stripe_customer_id?: string;
           status?: Database["public"]["Enums"]["subscription_status"];
           current_period_end?: string;
-          created_at?: string;
-          updated_at?: string;
         };
       };
       submissions: {
