@@ -8,3 +8,4 @@ export {
   type SearchResponse,
   type SearchResultItem,
 } from "./search";
+export { indexFitnessCenter, removeFromIndex } from "./indexer";

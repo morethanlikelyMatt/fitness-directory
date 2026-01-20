@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { getUser } from "@/lib/supabase/auth";
+import { indexFitnessCenter } from "@/lib/typesense";
+import { toStateAbbreviation } from "@/lib/utils/states";
 
 async function verifyAdmin() {
   const user = await getUser();
@@ -25,6 +27,25 @@ async function verifyAdmin() {
   return { supabase, adminId: user.id };
 }
 
+// Generate a unique slug by adding a random suffix if the base slug exists
+async function generateUniqueSlug(supabase: ReturnType<typeof createClient> extends Promise<infer T> ? T : never, baseSlug: string): Promise<string> {
+  // Check if the slug already exists
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: existing } = await (supabase as any)
+    .from("fitness_centers")
+    .select("id")
+    .eq("slug", baseSlug)
+    .single();
+
+  if (!existing) {
+    return baseSlug;
+  }
+
+  // Slug exists, generate a new one with a random suffix
+  const suffix = Math.random().toString(36).substring(2, 8);
+  return `${baseSlug}-${suffix}`;
+}
+
 export async function approveSubmission(id: string) {
   const { supabase, adminId } = await verifyAdmin();
 
@@ -38,6 +59,11 @@ export async function approveSubmission(id: string) {
 
   if (fetchError || !submission) {
     return { error: "Submission not found" };
+  }
+
+  // Check if already approved
+  if (submission.status === "approved") {
+    return { error: "Submission has already been approved" };
   }
 
   if (submission.type === "new_submission") {
@@ -61,15 +87,21 @@ export async function approveSubmission(id: string) {
       attribute_ids?: string[];
     };
 
+    // Generate a unique slug in case the original one is taken
+    const uniqueSlug = await generateUniqueSlug(supabase, data.slug);
+
+    // Convert state name to abbreviation
+    const stateAbbr = toStateAbbreviation(data.state);
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: newListing, error: createError } = await (supabase as any)
       .from("fitness_centers")
       .insert({
         name: data.name,
-        slug: data.slug,
+        slug: uniqueSlug,
         address: data.address,
         city: data.city,
-        state: data.state,
+        state: stateAbbr,
         country: data.country,
         postal_code: data.postal_code,
         latitude: data.latitude,
@@ -90,6 +122,9 @@ export async function approveSubmission(id: string) {
       console.error("Error creating listing:", createError);
       return { error: "Failed to create listing" };
     }
+
+    // Index the new fitness center in Typesense for search
+    await indexFitnessCenter(newListing.id);
 
     // Link the submission to the new fitness center
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

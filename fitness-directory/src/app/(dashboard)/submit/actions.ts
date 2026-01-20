@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { Enums } from "@/types/database";
+import { toStateAbbreviation } from "@/lib/utils/states";
 
 export type SubmissionResult = {
   error?: string;
@@ -116,7 +117,7 @@ export async function submitNewGym(
     name: data.name,
     address: data.address,
     city: data.city,
-    state: data.state || null,
+    state: toStateAbbreviation(data.state) || null,
     country: data.country,
     postal_code: data.postalCode || null,
     latitude: coords.latitude,
