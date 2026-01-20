@@ -74,6 +74,50 @@ export async function signup(formData: FormData): Promise<AuthResult> {
   redirect("/check-email");
 }
 
+export async function signupBusiness(formData: FormData): Promise<AuthResult> {
+  const supabase = await createServerClient();
+  const headersList = await headers();
+  const origin = headersList.get("origin") || "";
+
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+  const name = formData.get("name") as string;
+  const businessName = formData.get("businessName") as string;
+
+  if (!email || !password) {
+    return { error: "Email and password are required" };
+  }
+
+  if (!businessName) {
+    return { error: "Business name is required" };
+  }
+
+  if (password.length < 8) {
+    return { error: "Password must be at least 8 characters" };
+  }
+
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: `${origin}/auth/callback?type=business`,
+      data: {
+        name: name || undefined,
+        business_name: businessName,
+        is_business: true,
+      },
+    },
+  });
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  // Redirect to business-specific check email page
+  revalidatePath("/", "layout");
+  redirect("/check-email?type=business");
+}
+
 export async function logout(): Promise<void> {
   const supabase = await createServerClient();
 
